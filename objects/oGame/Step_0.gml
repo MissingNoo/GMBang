@@ -17,17 +17,6 @@ if (keyboard_check_pressed(vk_enter)) {
 	}
 	show_debug_message(dices);
 }
-if (keyboard_check_pressed(vk_backspace)) {
-	if (rolling) {
-	    for (var i = 0; i < array_length(dices); ++i) {
-			if (dices[i].saved) {
-			    continue;
-			}
-			dices[i][$ "face"] = irandom_range(0, 5);
-		}
-	}
-    rolling = !rolling;
-}
 if (rolling) {
     for (var i = 0; i < array_length(dices); ++i) {
 		if (dices[i].saved) {
@@ -59,7 +48,7 @@ if (device_mouse_check_button(0, mb_left)) {
 	for (var i = 0; i < array_length(dices); ++i) {
 		if (dices[i].saved) {
 		    var _w = sprite_get_width(sDice) / 2 + 6;
-		    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1] + _yoffset, dropArea[0] + (_w * 2), dropArea[1] + (_w * 2) + _yoffset)) {
+		    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1] + _yoffset, dropArea[0] + (_w * 2), dropArea[1] + (_w * 2) + _yoffset) and dices[i][$ "face"] != Faces.Bomb) {
 				pushingDice = i;
 			}
 			_yoffset += 53;
@@ -69,7 +58,12 @@ if (device_mouse_check_button(0, mb_left)) {
 
 if (pushingDice != -1 and device_mouse_check_button_released(0, mb_left)) {
 	if (point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1], dropArea[2], dropArea[3])) {
-	    dices[pushingDice][$ "saved"] = true;
+		if (dices[pushingDice][$ "face"] == Faces.Arrow) {
+		    show_message_async("Não pode salvar flecha!");
+		}
+		else{
+			dices[pushingDice][$ "saved"] = true;
+		}
 	}
 	else if (dices[pushingDice][$ "saved"]) {
 		dices[pushingDice][$ "saved"] = false;

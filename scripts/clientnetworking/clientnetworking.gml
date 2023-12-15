@@ -9,7 +9,9 @@ enum Network {
     Disconnect,
     CreateRoom,
     JoinRoom,
-	StartGame
+	StartGame,
+	Roll,
+	Mouse
 }
 function clientReceivedPacket2(_response)
 {
@@ -21,7 +23,11 @@ function clientReceivedPacket2(_response)
 		//	global.socket = r[$ "socket"];
 		//	//show_debug_message(r[$"socket"]);
 	    //    break;
-			
+		case Network.Roll:
+			oGame.rolling = true;
+			oGame.alarm[0] = 100;
+			oGame.result = json_parse(r[$ "dicejson"]);
+			break;
 		case Network.JoinRoom:{
 			global.roomname = r[$ "roomname"];
 			DEBUG
@@ -44,9 +50,19 @@ function clientReceivedPacket2(_response)
 			break;
 		
 		case Network.StartGame:{
+			global.players = oLobby.players;
 			room_goto(rGame);
 			break;}
 			
+		case Network.Mouse:
+		
+			for (var i = 0; i < array_length(global.players); ++i) {
+			    if (global.players[i].port == r[$ "socket"]) {
+				    global.players[i].mx = r[$ "x"];
+				    global.players[i].my = r[$ "y"];
+				}
+			}
+			break;
 		// case Network.PlayerJoined:{
 		//		reset_timer();
 		//		reset_pool();

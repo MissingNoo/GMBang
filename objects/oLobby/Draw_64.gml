@@ -28,7 +28,7 @@ if (!joinedRoom) {
 	exit;
 }
 if (joinedRoom) {
-	draw_text(10, 30, $"Password: {global.password}");
+	draw_text(10, 30, $"Password: {global.password} / {players}");
 	var _yoffset = 0;
 	for (var i = 0; i < array_length(players); ++i) {
 	    draw_text(10, 45 + _yoffset, players[i].username);
