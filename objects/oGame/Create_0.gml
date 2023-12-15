@@ -9,3 +9,4 @@ mx = 0;
 my = 0;
 mxn = 0;
 myn = 0;
+//window_set_size(window_get_width()/2, window_get_height()/2);'

@@ -63,10 +63,12 @@ if (pushingDice != -1 and device_mouse_check_button_released(0, mb_left)) {
 		}
 		else{
 			dices[pushingDice][$ "saved"] = true;
+			sendMessage({ command : Network.SaveDice, number : pushingDice, saved : dices[pushingDice][$ "saved"]});
 		}
 	}
 	else if (dices[pushingDice][$ "saved"]) {
 		dices[pushingDice][$ "saved"] = false;
+		sendMessage({ command : Network.SaveDice, number : pushingDice, saved : dices[pushingDice][$ "saved"]});
 	}
 	pushingDice = -1;
 }

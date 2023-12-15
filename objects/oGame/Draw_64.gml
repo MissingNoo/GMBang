@@ -27,7 +27,13 @@ if (button(GW/2 - 242, GH/2 - 150, $"Rolar ({rolls})", 1) and rolls > 0) {
 }
 for (var i = 0; i < array_length(global.players); ++i) {
     if (global.players[i][$ "mx"] != undefined) {
-	    draw_circle(global.players[i][$ "mx"], global.players[i][$ "my"], 3, false);
+		if (global.players[i][$ "mouseSprite"] != -1) {
+		    draw_sprite_ext(sDice, global.players[i][$ "mouseSprite"], global.players[i][$ "mx"], global.players[i][$ "my"], 1, 1, 0, c_white, 0.5);
+		}
+		else{
+			draw_circle(global.players[i][$ "mx"], global.players[i][$ "my"], 3, false);
+		}
+	    
 		draw_set_halign(fa_center);
 		draw_text_transformed(global.players[i][$ "mx"], global.players[i][$ "my"] - 10, global.players[i][$ "username"], 0.5, 0.5, 0);
 		draw_set_halign(fa_left);

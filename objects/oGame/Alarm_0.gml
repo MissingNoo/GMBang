@@ -9,6 +9,7 @@ for (var i = 0; i < array_length(result); ++i) {
 	        break;
 	    case Faces.Bomb:
 	        dices[i][$ "saved"] = true;
+			sendMessage({ command : Network.SaveDice, number : i, saved : dices[i][$ "saved"]});
 	        break;
 	    default:
 	        // code here

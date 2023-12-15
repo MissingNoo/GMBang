@@ -11,7 +11,8 @@ enum Network {
     JoinRoom,
 	StartGame,
 	Roll,
-	Mouse
+	Mouse,
+	SaveDice
 }
 function clientReceivedPacket2(_response)
 {
@@ -55,13 +56,16 @@ function clientReceivedPacket2(_response)
 			break;}
 			
 		case Network.Mouse:
-		
 			for (var i = 0; i < array_length(global.players); ++i) {
 			    if (global.players[i].port == r[$ "socket"]) {
 				    global.players[i].mx = r[$ "x"];
 				    global.players[i].my = r[$ "y"];
+					global.players[i].mouseSprite = r[$ "sprite"];
 				}
 			}
+			break;
+		case Network.SaveDice:
+			oGame.dices[r[$ "number"]][$ "saved"] = r[$ "saved"];
 			break;
 		// case Network.PlayerJoined:{
 		//		reset_timer();
