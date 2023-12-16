@@ -12,7 +12,8 @@ enum Network {
 	StartGame,
 	Roll,
 	Mouse,
-	SaveDice
+	SaveDice,
+	NextTurn
 }
 function clientReceivedPacket2(_response)
 {
@@ -28,6 +29,7 @@ function clientReceivedPacket2(_response)
 			oGame.rolling = true;
 			oGame.alarm[0] = 100;
 			oGame.result = json_parse(r[$ "dicejson"]);
+			oGame.firstRoll = false;
 			break;
 		case Network.JoinRoom:{
 			global.roomname = r[$ "roomname"];
@@ -52,6 +54,7 @@ function clientReceivedPacket2(_response)
 		
 		case Network.StartGame:{
 			global.players = oLobby.players;
+			global.playerid = r[$ "socket"];
 			room_goto(rGame);
 			break;}
 			
@@ -66,6 +69,13 @@ function clientReceivedPacket2(_response)
 			break;
 		case Network.SaveDice:
 			oGame.dices[r[$ "number"]][$ "saved"] = r[$ "saved"];
+			break;
+		case Network.NextTurn:
+			oGame.currentTurn = r[$ "turn"];
+			oGame.firstRoll = true;
+			for (var i = 0; i < array_length(oGame.dices); ++i) {
+			    dices[i].saved = false;
+			}
 			break;
 		// case Network.PlayerJoined:{
 		//		reset_timer();

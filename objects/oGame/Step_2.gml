@@ -5,5 +5,5 @@ var _sprite = -1;
 if (pushingDice != -1) {
     _sprite = dices[pushingDice].face;
 }
-sendMessage({ command : Network.Mouse, x : mx, y : my, sprite : _sprite});
+sendMessage({ command : Network.Mouse, x : mx, y : my, sprite : _sprite });
 //}
