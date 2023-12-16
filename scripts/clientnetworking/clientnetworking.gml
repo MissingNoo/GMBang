@@ -13,7 +13,9 @@ enum Network {
 	Roll,
 	Mouse,
 	SaveDice,
-	NextTurn
+	NextTurn,
+	AddArrow,
+	UpdatePlayers
 }
 function clientReceivedPacket2(_response)
 {
@@ -74,8 +76,11 @@ function clientReceivedPacket2(_response)
 			oGame.currentTurn = r[$ "turn"];
 			oGame.firstRoll = true;
 			for (var i = 0; i < array_length(oGame.dices); ++i) {
-			    dices[i].saved = false;
+			    oGame.dices[i].saved = false;
 			}
+			break;
+		case Network.UpdatePlayers:
+			global.players = json_parse(r[$ "players"]);
 			break;
 		// case Network.PlayerJoined:{
 		//		reset_timer();

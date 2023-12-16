@@ -20,6 +20,8 @@
     {"name":"oGame","order":2,"path":"objects/oGame/oGame.yy",},
     {"name":"Window","order":3,"path":"scripts/Window/Window.yy",},
     {"name":"rGame","order":1,"path":"rooms/rGame/rGame.yy",},
+    {"name":"sArrow","order":2,"path":"sprites/sArrow/sArrow.yy",},
+    {"name":"sBullet","order":1,"path":"sprites/sBullet/sBullet.yy",},
     {"name":"Macros","order":1,"path":"scripts/Macros/Macros.yy",},
     {"name":"Scripts","order":2,"path":"scripts/Scripts/Scripts.yy",},
     {"name":"oLobby","order":1,"path":"objects/oLobby/oLobby.yy",},

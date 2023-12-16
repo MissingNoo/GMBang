@@ -1,6 +1,6 @@
 var _mult = 1;
 if (keyboard_check(vk_shift)) { _mult = 0.5; }
-if (keyboard_check(vk_control)) { _mult = 0.1; }
+if (keyboard_check(vk_control)) { _mult = 0.01; }
 if (keyboard_check(vk_alt)) { _mult = 10; }
 var _a = (keyboard_check_pressed(vk_pageup) - keyboard_check_pressed(vk_pagedown)) * _mult;
 debuginfo.a += _a;
@@ -8,14 +8,28 @@ var _b = (keyboard_check_pressed(vk_home) - keyboard_check_pressed(vk_end)) * _m
 debuginfo.b += _b;
 var _c = (keyboard_check_pressed(vk_insert) - keyboard_check_pressed(vk_delete)) * _mult;
 debuginfo.c += _c;
-if (keyboard_check_pressed(vk_enter)) {
-    dices[array_length(dices)] = {
-		face : irandom_range(0, 5),
-		x : device_mouse_x_to_gui(0),
-		y : device_mouse_y_to_gui(0),
-		saved : false
+//if (keyboard_check_pressed(vk_enter)) {
+//    dices[array_length(dices)] = {
+//		face : irandom_range(0, 5),
+//		x : device_mouse_x_to_gui(0),
+//		y : device_mouse_y_to_gui(0),
+//		saved : false
+//	}
+//	show_debug_message(dices);
+//}
+if (keyboard_check_pressed(vk_f10)) {
+	for (var i = 0; i < array_length(global.playerspos); ++i) {
+	    global.playerspos[i][$ "x"] = undefined;
 	}
-	show_debug_message(dices);
+}
+if (keyboard_check_pressed(vk_enter)) {
+    for (var i = 0; i < array_length(global.playerspos); ++i) {
+	    if (global.playerspos[i][$ "x"] == undefined) {
+			global.playerspos[i][$ "x"] = device_mouse_x_to_gui(0);
+			global.playerspos[i][$ "y"] = device_mouse_y_to_gui(0);
+			break;
+		}
+	}
 }
 if (rolling) {
     for (var i = 0; i < array_length(dices); ++i) {
@@ -28,11 +42,6 @@ if (rolling) {
 		if (dices[i].face > sprite_get_number(sDice)) {
 		    dices[i][$ "face"] = 0;
 		}
-	}
-}
-else{
-	for (var i = 0; i < array_length(dices); ++i) {
-	    dices[i][$ "face"] = floor(dices[i][$ "face"]);
 	}
 }
 if (!firstRoll) {
