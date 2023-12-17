@@ -10,3 +10,28 @@ enum Faces {
 	Beer,
 	Gatling
 }
+enum Characters {
+	BartCassidy,
+    BlackJack,
+    CalamityJanet,
+    ElGringo,
+    JesseJones,
+    Jourdonnais,
+    KitCarlson,
+    LuckyDuke,
+    PaulRegret,
+    PedroRamirez,
+    RoseDoolan,
+    SidKetchum,
+    SlabtheKiller,
+    SuzyLafayette,
+    VultureSam,
+    WillytheKid
+}
+
+enum Roles {
+	Sheriff,
+	Deputy,
+	Outlaw,
+	Renegade
+}

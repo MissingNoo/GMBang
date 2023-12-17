@@ -19,6 +19,7 @@
   "ResourceOrderSettings": [
     {"name":"oGame","order":2,"path":"objects/oGame/oGame.yy",},
     {"name":"Window","order":3,"path":"scripts/Window/Window.yy",},
+    {"name":"sCharacters","order":3,"path":"sprites/sCharacters/sCharacters.yy",},
     {"name":"rGame","order":1,"path":"rooms/rGame/rGame.yy",},
     {"name":"sArrow","order":2,"path":"sprites/sArrow/sArrow.yy",},
     {"name":"sBullet","order":1,"path":"sprites/sBullet/sBullet.yy",},

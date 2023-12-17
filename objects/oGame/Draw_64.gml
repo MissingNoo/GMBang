@@ -64,21 +64,29 @@ for (var i = 0; i < array_length(global.players); ++i) {
 		draw_set_halign(fa_left);
 	}
 }
-#region Draw Players
+#region Draw Players 1.8
+positions = [[GW/30, GH/3], [GW/4, GH/15], [GW/1.50, GH/15], [GW/1.20 - 20, GH/3], [GW/1.20 - 20, GH/1.80], [GW/1.50, GH/1.25], [GW/4, GH/1.25], [GW/30, GH/1.80]];
+//for (var i = 0; i < array_length(positions); ++i) {
+//	if (positions[i][0] == 0) {
+//	    continue;
+//	}
+//	draw_rectangle(positions[i][0], positions[i][1], positions[i][0] + 100, positions[i][1] + 50, true);
+//}
 for (var i = 0; i < array_length(global.players); ++i) {
-	if (global.playerspos[i][$ "x"] != undefined) {
-	var _x = global.playerspos[i][$ "x"];
-	var _y = global.playerspos[i][$ "y"];
+	//if (global.playerspos[i][$ "x"] != undefined) {
+	var _x = positions[i][0];
+	var _y = positions[i][1];
 	if (global.playerspos[i][$ "endx"] == undefined) {
 	    global.playerspos[i][$ "endx"] = _x;
 		global.playerspos[i][$ "endy"] = _y;
 	}
 	draw_rectangle(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], true);
 	draw_rectangle(_x, _y, _x + 64, _y + 64, true);
+	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
 	_x += 74;
 	var _name = global.players[i].username;
 	draw_text(_x, _y, _name);
-	draw_rectangle(_x, _y + string_height(_name), _x + string_width(_name), _y + string_height(_name) + 1, false);
+	draw_rectangle(_x, _y + string_height(_name), global.playerspos[i][$ "endx"] - 2, _y + string_height(_name) + 1, false);
 	_y += string_height(_name) + 5;
 	var _offset = 0;
 	for (var j = 0; j < global.players[i][$ "life"]; ++j) {
@@ -91,9 +99,10 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	    draw_sprite_ext(sArrow, 0, _x - 10 + _offset, _y, 0.70, 0.70, 45, c_white, 1);
 		_offset += 15;
 	}
+	_y += 25;
 	_x += string_width(_name) + 80;
 	global.playerspos[i][$ "endx"] = _x + 2;
 	global.playerspos[i][$ "endy"] = _y + 2;
-	}
+	//}
 }
 #endregion
