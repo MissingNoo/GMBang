@@ -16,7 +16,8 @@ enum Network {
 	NextTurn,
 	AddArrow,
 	UpdatePlayers,
-	Damage
+	Damage,
+	Heal
 }
 function clientReceivedPacket2(_response)
 {

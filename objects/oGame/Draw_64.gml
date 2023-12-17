@@ -139,18 +139,6 @@ if (resolvePhase) {
 				    canhit1[1]--;
 				}
 			}
-			if (global.players[canhit2[0]].life <= 0) {
-			    canhit2[0]++;
-				if (canhit2[0] == myposition) {
-				    canhit2[0]++;
-				}
-			}
-			if (global.players[canhit1[1]].life <= 0) {
-			    canhit2[1]--;
-				if (canhit2[1] == myposition) {
-				    canhit2[1]--;
-				}
-			}
 	        var _x = positions[canhit1[0]][0];
 			var _xx = global.playerspos[canhit1[0]][$ "endx"];
 			var _y = positions[canhit1[0]][1];
@@ -173,6 +161,18 @@ if (resolvePhase) {
 			}
 	        break;
 	    case Faces.Hit2:
+			if (global.players[canhit2[0]].life <= 0) {
+			    canhit2[0]++;
+				if (canhit2[0] == myposition) {
+				    canhit2[0]++;
+				}
+			}
+			if (global.players[canhit2[1]].life <= 0) {
+			    canhit2[1]--;
+				if (canhit2[1] == myposition) {
+				    canhit2[1]--;
+				}
+			}
 	        _x = positions[canhit2[0]][0];
 			_xx = global.playerspos[canhit2[0]][$ "endx"];
 			_y = positions[canhit2[0]][1];
@@ -204,7 +204,18 @@ if (resolvePhase) {
 			resolvingDice++;
 			break;
 		case Faces.Beer:
-			resolvingDice++;
+			for (var i = 0; i < array_length(global.players); ++i) {
+			    _x = positions[i][0];
+				_xx = global.playerspos[i][$ "endx"];
+				_y = positions[i][1];
+				_yy = global.playerspos[i][$ "endy"];
+				draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+				if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
+				    sendMessage({ command : Network.Heal, port : global.players[i][$ "port"] });
+					resolvingDice++;
+					break;
+				}
+			}
 			break;
 	    default:
 	        // code here
