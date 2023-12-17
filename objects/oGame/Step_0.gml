@@ -1,3 +1,4 @@
+updateHit();
 var _mult = 1;
 if (keyboard_check(vk_shift)) { _mult = 0.5; }
 if (keyboard_check(vk_control)) { _mult = 0.01; }

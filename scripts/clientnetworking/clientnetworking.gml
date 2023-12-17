@@ -15,7 +15,8 @@ enum Network {
 	SaveDice,
 	NextTurn,
 	AddArrow,
-	UpdatePlayers
+	UpdatePlayers,
+	Damage
 }
 function clientReceivedPacket2(_response)
 {
@@ -75,6 +76,9 @@ function clientReceivedPacket2(_response)
 		case Network.NextTurn:
 			oGame.currentTurn = r[$ "turn"];
 			oGame.firstRoll = true;
+			oGame.actions = 0;
+			oGame.resolvingDice = 0;
+			oGame.resolvePhase = false;
 			for (var i = 0; i < array_length(oGame.dices); ++i) {
 			    oGame.dices[i].saved = false;
 			}
