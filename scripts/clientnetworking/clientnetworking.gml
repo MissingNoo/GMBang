@@ -35,32 +35,32 @@ function clientReceivedPacket2(_response)
 			oGame.result = json_parse(r[$ "dicejson"]);
 			oGame.firstRoll = false;
 			break;
-		case Network.JoinRoom:{
+		case Network.JoinRoom:
 			global.roomname = r[$ "roomname"];
-			DEBUG
-			show_debug_message($"joining room {global.roomname}");
-			ENDDEBUG
+			if (DEBUG) {
+				show_debug_message($"joining room {global.roomname}");
+			}
 			oLobby.players = json_parse(r[$ "players"]);
 			oLobby.ishost = r[$ "isHost"];
 			oLobby.joinedRoom = true;
 			//keyboard_string = "";
 			//oLobby.chatmessages = [];
 			break;
-		}
+		
 		case Network.CreateRoom:
 			global.roomname = r[$ "roomname"];
 			global.password = r[$ "password"];
-			DEBUG
-			show_debug_message($"created room {global.roomname} password: {global.password}");
-			ENDDEBUG
+			if (DEBUG) {
+				show_debug_message($"created room {global.roomname} password: {global.password}");
+			}
 			sendMessage({ command : Network.JoinRoom, username : global.username, password : global.password });
 			break;
 		
-		case Network.StartGame:{
+		case Network.StartGame:
 			global.players = oLobby.players;
 			global.playerid = r[$ "socket"];
 			room_goto(rGame);
-			break;}
+			break;
 			
 		case Network.Mouse:
 			for (var i = 0; i < array_length(global.players); ++i) {

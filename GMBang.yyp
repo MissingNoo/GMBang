@@ -45,6 +45,7 @@
     {"id":{"name":"clientnetworking","path":"scripts/clientnetworking/clientnetworking.yy",},},
     {"id":{"name":"oClient","path":"objects/oClient/oClient.yy",},},
     {"id":{"name":"sBullet","path":"sprites/sBullet/sBullet.yy",},},
+    {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},},
     {"id":{"name":"Macros","path":"scripts/Macros/Macros.yy",},},
     {"id":{"name":"sDice","path":"sprites/sDice/sDice.yy",},},
     {"id":{"name":"Scripts","path":"scripts/Scripts/Scripts.yy",},},

@@ -1,8 +1,8 @@
-DEBUG
-draw_text(10,10, $"{debuginfo} {global.playerid}");
-ENDDEBUG
+if (DEBUG) {
+	draw_text(10,10, $"{debuginfo} {global.playerid}");
+}
 var _currentPlayer = global.players[currentTurn].username;
-draw_text(10, 30, $"Turno de: {_currentPlayer} {currentTurn}");
+draw_text(10, 30, $"Turno de: {_currentPlayer}");
 draw_rectangle(GW/2 - 268, GH/2 - 131, GW/2 + 268, GH/2 + 131, true);
 //draw_rectangle(GW/9.30, GH/6.20, GW/1.12, GH/1.185, true);
 var _totalSaved = 0;
@@ -96,7 +96,9 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	    global.playerspos[i][$ "endx"] = _x;
 		global.playerspos[i][$ "endy"] = _y;
 	}
-	draw_rectangle(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], true);
+	var _color = i == currentTurn ? c_green : c_white;
+	if(_color == c_green and currentTurn != myposition) { _color = c_yellow; }
+	draw_rectangle_color(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], _color, _color, _color, _color, true);
 	draw_rectangle(_x, _y, _x + 64, _y + 64, true);
 	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
 	_x += 74;

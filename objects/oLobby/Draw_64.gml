@@ -1,9 +1,9 @@
 //if (button(GW/2, GH/2, "Teste", 2)) {
 //    show_message_async("teste");
 //}
-DEBUG
+if (DEBUG) {
 draw_text(10,10, debuginfo);
-ENDDEBUG
+}
 if (!joinedRoom) {
 	var _x = GW/2;
 	var _y = GH/2 - 150;
@@ -14,9 +14,9 @@ if (!joinedRoom) {
 	_y += 50;
 	if (button(_x , _y, "Criar Sala", 1)) {
 	    sendMessage({ command : Network.CreateRoom });
-		DEBUG
+		if (DEBUG) {
 		show_debug_message("creating room");
-		ENDDEBUG
+		}
 	}
 	_y += 50;
 	button(_x, _y, keyboard_string, 1);
