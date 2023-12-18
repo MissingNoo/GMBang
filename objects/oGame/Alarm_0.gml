@@ -1,11 +1,12 @@
 rolling = false;
-for (var i = 0; i < array_length(dices); ++i) {
-	dices[i][$ "face"] = floor(dices[i][$ "face"]);
-}
+//for (var i = 0; i < array_length(dices); ++i) {
+//	dices[i][$ "face"] = floor(dices[i][$ "face"]);
+//}
 for (var i = 0; i < array_length(result); ++i) {
-	if (!dices[i].saved) {
+	//if (!dices[i][$ "saved"]) {
+	if (result[i] != -1) {
 	    dices[i][$ "face"] = result[i];
-	}    
+	}
 	switch (dices[i][$ "face"]) {
 	    case Faces.Arrow:
 			if (global.players[currentTurn][$ "port"] == global.playerid) {

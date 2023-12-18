@@ -46,27 +46,25 @@ if (!rolling and global.players[currentTurn].port == global.playerid and global.
 		var _saved = [];
 		for (var i = 0; i < array_length(dices); ++i) {
 		    if (dices[i].saved) {
-			    array_push(_saved, i);
+			    array_push(_saved, [i, dices[i][$ "face"]]);
 			}
 		}
 	    sendMessage({ command : Network.Roll, saved : json_stringify(_saved) });
 	}
 }
 if (!rolling and global.players[currentTurn].port == global.playerid and (global.players[currentTurn][$ "rolls"] == 0 or _totalSaved == array_length(dices)) and global.players[currentTurn][$ "bombs"] < 3 and !actions and button(GW/2 - 242, GH/2 - 150, $"Finalizar turno!", 1)) {
-	var _gatling = 0;
+	gatling = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
-		if (dices[i].face == Faces.Gatling) {
-		    _gatling++;
-		}
 	    if (dices[i].face != Faces.Arrow and dices[i].face != Faces.Bomb and dices[i].face != Faces.Gatling) {
 		    actions=true;
-			resolvePhase = true;
 			resolvingDice = 0;
 		}
+		resolvePhase = true;
 	}
 	//sendMessage({ command : Network.NextTurn });
 }
-
+draw_sprite_ext(sArrow, 0, dropArea[0], dropArea[3] + 10, 1, 1, 0, c_white, 1);
+draw_text(dropArea[0] + debuginfo.a, dropArea[3] + debuginfo.b, $": {arrows}");
 for (var i = 0; i < array_length(global.players); ++i) {
     if (global.players[i][$ "mx"] != undefined) {
 		if (global.players[i][$ "mouseSprite"] != -1) {
@@ -96,8 +94,8 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	    global.playerspos[i][$ "endx"] = _x;
 		global.playerspos[i][$ "endy"] = _y;
 	}
-	var _color = i == currentTurn ? c_green : c_white;
-	if(_color == c_green and currentTurn != myposition) { _color = c_yellow; }
+	var _color = i == currentTurn ? c_blue : c_white;
+	if(_color == c_blue and currentTurn != myposition) { _color = c_yellow; }
 	draw_rectangle_color(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], _color, _color, _color, _color, true);
 	draw_rectangle(_x, _y, _x + 64, _y + 64, true);
 	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
@@ -127,71 +125,58 @@ for (var i = 0; i < array_length(global.players); ++i) {
 
 #region Resolve Phase
 if (resolvePhase) {
+	var _noaction = true;
+	for (var i = 0; i < array_length(dices); i += 1) {
+		if (dices[i][$ "face"] == Faces.Beer or dices[i][$ "face"] == Faces.Hit1 or dices[i][$ "face"] == Faces.Hit2){
+			_noaction = false;
+		}		
+	}
+	if (_noaction) {
+		sendMessage({ command : Network.NextTurn });
+	}
 	switch (dices[resolvingDice].face) {
 	    case Faces.Hit1:
-			if (global.players[canhit1[0]].life <= 0) {
-			    canhit1[0]++;
-				if (canhit1[0] == myposition) {
-				    canhit1[0]++;
-				}
-			}
-			if (global.players[canhit1[1]].life <= 0) {
-			    canhit1[1]--;
-				if (canhit1[1] == myposition) {
-				    canhit1[1]--;
-				}
-			}
-	        var _x = positions[canhit1[0]][0];
-			var _xx = global.playerspos[canhit1[0]][$ "endx"];
-			var _y = positions[canhit1[0]][1];
-			var _yy = global.playerspos[canhit1[0]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+			can_hit(1);
+	        var _x = positions[canhit[0]][0];
+			var _xx = global.playerspos[canhit[0]][$ "endx"];
+			var _y = positions[canhit[0]][1];
+			var _yy = global.playerspos[canhit[0]][$ "endy"];
+			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
 			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit1[0]][$ "port"] });
+			    sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"] });
 				resolvingDice++;
 				break;
 			}
-	        _x = positions[canhit1[1]][0];
-			_xx = global.playerspos[canhit1[1]][$ "endx"];
-			_y = positions[canhit1[1]][1];
-			_yy = global.playerspos[canhit1[1]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+	        _x = positions[canhit[1]][0];
+			_xx = global.playerspos[canhit[1]][$ "endx"];
+			_y = positions[canhit[1]][1];
+			_yy = global.playerspos[canhit[1]][$ "endy"];
+			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
 			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit1[1]][$ "port"] });
+			    sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"] });
 				resolvingDice++;
 				break;
 			}
 	        break;
 	    case Faces.Hit2:
-			if (global.players[canhit2[0]].life <= 0) {
-			    canhit2[0]++;
-				if (canhit2[0] == myposition) {
-				    canhit2[0]++;
-				}
-			}
-			if (global.players[canhit2[1]].life <= 0) {
-			    canhit2[1]--;
-				if (canhit2[1] == myposition) {
-				    canhit2[1]--;
-				}
-			}
-	        _x = positions[canhit2[0]][0];
-			_xx = global.playerspos[canhit2[0]][$ "endx"];
-			_y = positions[canhit2[0]][1];
-			_yy = global.playerspos[canhit2[0]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+			can_hit(2);
+	        _x = positions[canhit[0]][0];
+			_xx = global.playerspos[canhit[0]][$ "endx"];
+			_y = positions[canhit[0]][1];
+			_yy = global.playerspos[canhit[0]][$ "endy"];
+			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
 			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit2[0]][$ "port"] });
+			    sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"] });
 				resolvingDice++;
 				break;
 			}
-	        _x = positions[canhit2[1]][0];
-			_xx = global.playerspos[canhit2[1]][$ "endx"];
-			_y = positions[canhit2[1]][1];
-			_yy = global.playerspos[canhit2[1]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+	        _x = positions[canhit[1]][0];
+			_xx = global.playerspos[canhit[1]][$ "endx"];
+			_y = positions[canhit[1]][1];
+			_yy = global.playerspos[canhit[1]][$ "endy"];
+			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
 			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit2[1]][$ "port"] });
+			    sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"] });
 				resolvingDice++;
 				break;
 			}
@@ -200,6 +185,11 @@ if (resolvePhase) {
 			resolvingDice++;
 			break;
 		case Faces.Gatling:
+			gatling++;
+			var _gatlingMinimum = 3;
+			if (gatling >= _gatlingMinimum) {
+				sendMessage({ command : Network.Gatling });
+			}
 			resolvingDice++;
 			break;
 		case Faces.Arrow:

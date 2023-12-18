@@ -17,7 +17,8 @@ enum Network {
 	AddArrow,
 	UpdatePlayers,
 	Damage,
-	Heal
+	Heal,
+	Gatling
 }
 function clientReceivedPacket2(_response)
 {
@@ -86,6 +87,9 @@ function clientReceivedPacket2(_response)
 			break;
 		case Network.UpdatePlayers:
 			global.players = json_parse(r[$ "players"]);
+			if (r[$ "arrows"] != undefined){
+				oGame.arrows = r[$ "arrows"];
+			}
 			break;
 		// case Network.PlayerJoined:{
 		//		reset_timer();

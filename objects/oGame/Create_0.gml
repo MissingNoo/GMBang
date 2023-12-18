@@ -1,7 +1,65 @@
 display_set_gui_size(1366, 768);
+gatling = 0;
+arrows = 0;
 dices = [ { face : 0, x : 520, saved : 0, y : 305 },{ face : 1, x : 555, saved : 0, y : 434 },{ face : 2, x : 661, saved : 0, y : 369 },{ face : 5, x : 804, saved : 0, y : 293 },{ face : 1, x : 823, saved : 0, y : 453 } ];
 firstRoll = true;
 myposition = 0;
+canhit = [0,0];
+function can_hit(distance){
+	var _alive = 0;
+	for (var i = 0; i < array_length(global.players); ++i) {
+		if (global.players[i].life > 0) {
+			_alive++;
+		}
+	    if (global.players[i].port == global.playerid) {
+		    myposition = i;
+		}
+	}
+	if(_alive <= 3){
+		distance = 1;
+	}
+
+	var lastplayer = array_length(global.players) - 1;
+	var firstplayer = 0;
+	canhit[0] = myposition + distance;
+	if (canhit[0] > lastplayer){
+		canhit[0] = firstplayer;
+	}
+	var loop = 0;
+	if(global.players[canhit[0]].life <= 0){
+		do {
+			canhit[0]++;
+			if (canhit[0] > lastplayer){
+				canhit[0] = firstplayer;
+			}
+			loop++;
+			if (loop > 30){
+				show_message_async("infinite loop");
+				break;
+			}
+		} until (canhit[0] != myposition and global.players[canhit[0]].life > 0);
+	}
+	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), $"me: {myposition} + {distance} = {myposition + distance} == {canhit[0]}");
+	canhit[1] = myposition - distance;
+	if (canhit[1] < firstplayer){
+		canhit[1] = lastplayer;
+	}
+	var loop = 0;
+	if(global.players[canhit[1]].life <= 0){
+		do {
+			canhit[1]--;
+			if (canhit[1] < firstplayer){
+				canhit[1] = lastplayer;
+			}
+			loop++;
+			if (loop > 30){
+				show_message_async("infinite loop");
+				break;
+			}
+		} until (canhit[1] != myposition and global.players[canhit[1]].life > 0);
+	}
+	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0) + 15, $"me: {myposition} - {distance} = {myposition - distance} == {canhit[1]}");
+}
 updateHit = function(){
 	for (var i = 0; i < array_length(global.players); ++i) {
 	    if (global.players[i].port == global.playerid) {

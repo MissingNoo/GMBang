@@ -1,4 +1,4 @@
-updateHit();
+//updateHit();
 if (keyboard_check_pressed(vk_f2)) {
     window_set_size(window_get_width()*1.25, window_get_height()*1.25);
 	display_set_gui_size(1366, 768);
