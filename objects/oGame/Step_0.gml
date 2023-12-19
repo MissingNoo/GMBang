@@ -42,19 +42,19 @@ if (keyboard_check_pressed(vk_enter)) {
 }
 if (rolling) {
     for (var i = 0; i < array_length(dices); ++i) {
-		if (dices[i].saved) {
+		if (dices[i][$ "saved"]) {
 		    continue;
 		}
-	    if (dices[i].face <= sprite_get_number(sDice)) {
+	    if (dices[i][$ "face"] <= sprite_get_number(sDice)) {
 		    dices[i][$ "face"] += sprite_get_speed(sDice) / game_get_speed(gamespeed_fps);
 		}
-		if (dices[i].face > sprite_get_number(sDice)) {
+		if (dices[i][$ "face"] > sprite_get_number(sDice)) {
 		    dices[i][$ "face"] = 0;
 		}
 	}
 }
 if (!firstRoll) {
-	if (device_mouse_check_button(0, mb_left)) {
+	if (device_mouse_check_button(0, mb_left) and global.players[currentTurn].port == global.playerid) {
 		var _yoffset = 0;
 		for (var i = 0; i < array_length(dices); ++i) {
 			var dice = dices[i];
@@ -75,15 +75,10 @@ if (!firstRoll) {
 		}
 	}
 
-	if (pushingDice != -1 and device_mouse_check_button_released(0, mb_left)) {
+	if (pushingDice != -1 and device_mouse_check_button_released(0, mb_left) and global.players[currentTurn].port == global.playerid) {
 		if (point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1], dropArea[2], dropArea[3])) {
-			if (dices[pushingDice][$ "face"] == Faces.Arrow) {
-			    show_message_async("Não pode salvar flecha!");
-			}
-			else{
-				dices[pushingDice][$ "saved"] = true;
-				sendMessage({ command : Network.SaveDice, number : pushingDice, saved : dices[pushingDice][$ "saved"]});
-			}
+			dices[pushingDice][$ "saved"] = true;
+			sendMessage({ command : Network.SaveDice, number : pushingDice, saved : dices[pushingDice][$ "saved"]});
 		}
 		else if (dices[pushingDice][$ "saved"]) {
 			dices[pushingDice][$ "saved"] = false;

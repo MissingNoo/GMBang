@@ -1,13 +1,38 @@
 if (DEBUG) {
 	draw_text(10,10, $"{debuginfo} {global.playerid}");
 }
+/*var _text = "";
+switch(global.players[myposition][$ "job"]){
+	case Roles.Sheriff:
+		_text = "Sheriff";
+		break;
+	case Roles.Deputy:
+		_text = "Deputy";
+		break;
+	case Roles.Outlaw:
+		_text = "Outlaw";
+		break;
+	case Roles.Renegade:
+		_text = "Renegade";
+		break;
+}
+var _scale = 4;
+draw_set_alpha(0.5);
+draw_rectangle_color(GW/2 - 160, GH/2 - 50, GW/2 + 160, GH/2 + 50, c_black, c_black, c_black, c_black, false);
+draw_set_alpha(1);
+draw_rectangle(GW/2 - 160, GH/2 - 50, GW/2 + 160, GH/2 + 50, true);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_text_transformed(GW/2, GH/2, _text, _scale, _scale, 0);
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);*/
 var _currentPlayer = global.players[currentTurn].username;
 draw_text(10, 30, $"Turno de: {_currentPlayer}");
 draw_rectangle(GW/2 - 268, GH/2 - 131, GW/2 + 268, GH/2 + 131, true);
 //draw_rectangle(GW/9.30, GH/6.20, GW/1.12, GH/1.185, true);
 var _totalSaved = 0;
 for (var i = 0; i < array_length(dices); ++i) {
-    if (dices[i].saved) {
+    if (dices[i][$ "saved"]) {
 	    _totalSaved += 1;
 	}
 }
@@ -64,7 +89,7 @@ if (!rolling and global.players[currentTurn].port == global.playerid and (global
 	//sendMessage({ command : Network.NextTurn });
 }
 draw_sprite_ext(sArrow, 0, dropArea[0], dropArea[3] + 10, 1, 1, 0, c_white, 1);
-draw_text(dropArea[0] + debuginfo.a, dropArea[3] + debuginfo.b, $": {arrows}");
+draw_text_transformed(dropArea[0] + debuginfo.a, dropArea[3] + debuginfo.b, $": {arrows}", debuginfo.c, debuginfo.c, 0);
 for (var i = 0; i < array_length(global.players); ++i) {
     if (global.players[i][$ "mx"] != undefined) {
 		if (global.players[i][$ "mouseSprite"] != -1) {
@@ -94,8 +119,24 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	    global.playerspos[i][$ "endx"] = _x;
 		global.playerspos[i][$ "endy"] = _y;
 	}
+	var _text = "";
+	switch(global.players[i][$ "job"]){
+		case Roles.Sheriff:
+			_text = "Sheriff";
+			break;
+		case Roles.Deputy:
+			_text = "Deputy";
+			break;
+		case Roles.Outlaw:
+			_text = "Outlaw";
+			break;
+		case Roles.Renegade:
+			_text = "Renegade";
+			break;
+	}
 	var _color = i == currentTurn ? c_blue : c_white;
-	if(_color == c_blue and currentTurn != myposition) { _color = c_yellow; }
+	if(_color == c_blue and currentTurn != myposition) { _color = c_purple; }
+	if(_color == c_white and _text == "Sheriff") { _color = c_yellow; }
 	draw_rectangle_color(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], _color, _color, _color, _color, true);
 	draw_rectangle(_x, _y, _x + 64, _y + 64, true);
 	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
@@ -117,6 +158,8 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	}
 	_y += 25;
 	_x += string_width(_name) + 80;
+	if(i != myposition and _text != "Sheriff") {_text = "";}
+	draw_text(_x - 220, _y - 25, _text);
 	global.playerspos[i][$ "endx"] = _x + 2;
 	global.playerspos[i][$ "endy"] = _y + 2;
 	//}

@@ -82,7 +82,7 @@ function clientReceivedPacket2(_response)
 			oGame.resolvingDice = 0;
 			oGame.resolvePhase = false;
 			for (var i = 0; i < array_length(oGame.dices); ++i) {
-			    oGame.dices[i].saved = false;
+			    oGame.dices[i][$ "saved"] = false;
 			}
 			break;
 		case Network.UpdatePlayers:

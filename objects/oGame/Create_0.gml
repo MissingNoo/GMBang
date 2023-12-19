@@ -1,9 +1,15 @@
 display_set_gui_size(1366, 768);
+jobalpha = 1;
 gatling = 0;
 arrows = 0;
 dices = [ { face : 0, x : 520, saved : 0, y : 305 },{ face : 1, x : 555, saved : 0, y : 434 },{ face : 2, x : 661, saved : 0, y : 369 },{ face : 5, x : 804, saved : 0, y : 293 },{ face : 1, x : 823, saved : 0, y : 453 } ];
 firstRoll = true;
 myposition = 0;
+for (var i = 0; i < array_length(global.players); ++i) {
+	if (global.players[i].port == global.playerid) {
+		myposition = i;
+	}
+}
 canhit = [0,0];
 function can_hit(distance){
 	var _alive = 0;
