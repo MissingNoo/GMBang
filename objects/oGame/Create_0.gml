@@ -26,7 +26,19 @@ function can_hit(distance){
 	//	canhit[0] = firstplayer;
 	//}
 	if (canhit[0] > lastplayer){
-		canhit[0] = firstplayer + (canhit[0] - lastplayer);
+		switch (distance){
+			case 1:
+				canhit[0] = firstplayer;
+				break;
+			case 2:
+				if(canhit[0] == lastplayer + 1){
+					canhit[0] = firstplayer;
+				}
+				else{
+					canhit[0] = firstplayer + 1;
+				}
+				break;
+		}
 	}
 	var loop = 0;
 	if(global.players[canhit[0]].life <= 0){
@@ -45,7 +57,20 @@ function can_hit(distance){
 	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), $"me: {myposition} + {distance} = {myposition + distance} == {canhit[0]}");
 	canhit[1] = myposition - distance;
 	if (canhit[1] < firstplayer){
-		canhit[1] = lastplayer - (lastplayer - (canhit[1] * -1));
+		switch (distance){
+			case 1:
+				canhit[1] = lastplayer;
+				break;
+			case 2:
+				if(canhit[1] == -1){
+					canhit[1] = lastplayer;
+				}
+				else{
+					canhit[1] = lastplayer -1;
+				}
+				
+				break;
+		}
 	}
 	var loop = 0;
 	if(global.players[canhit[1]].life <= 0){
