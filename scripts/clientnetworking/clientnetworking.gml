@@ -19,7 +19,8 @@ enum Network {
 	Damage,
 	Heal,
 	Gatling,
-	Waiting
+	Waiting,
+	ChangeBomb
 }
 function clientReceivedPacket2(_response)
 {

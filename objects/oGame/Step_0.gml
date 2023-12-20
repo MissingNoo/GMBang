@@ -80,7 +80,23 @@ if (!firstRoll) {
 		for (var i = 0; i < array_length(dices); ++i) {
 			if (dices[i][$ "saved"]) {
 			    var _w = sprite_get_width(sDice) / 2 + 6;
-			    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1] + _yoffset, dropArea[0] + (_w * 2), dropArea[1] + (_w * 2) + _yoffset) and dices[i][$ "face"] != Faces.Bomb) {
+				var _isBomb = false;
+				totalBombs = 0;
+				var _callback = function(_val, _index) {
+					if(_val[$ "face"] == Faces.Bomb){
+						oGame.totalBombs++;
+					}
+				}
+				array_foreach(dices, _callback);
+				if(dices[i][$ "face"] == Faces.Bomb){
+					if(global.players[myposition][$ "character"] == Characters.BlackJack and totalBombs < 3){
+						_isBomb = false;
+					}
+					else{
+						_isBomb = true;
+					}
+				}
+			    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1] + _yoffset, dropArea[0] + (_w * 2), dropArea[1] + (_w * 2) + _yoffset) and !_isBomb) {
 					pushingDice = i;
 				}
 				_yoffset += 53;
@@ -90,11 +106,19 @@ if (!firstRoll) {
 
 	if (pushingDice != -1 and device_mouse_check_button_released(0, mb_left) and global.players[currentTurn].port == global.playerid) {
 		if (point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1], dropArea[2], dropArea[3])) {
+			var _alreadySaved = false;
+			if(dices[pushingDice][$ "saved"]){_alreadySaved = true};
 			dices[pushingDice][$ "saved"] = true;
+			if(dices[pushingDice][$ "face"] == Faces.Bomb and !_alreadySaved){
+				sendMessage({ command : Network.ChangeBomb, amount : 1 });
+			}
 			sendMessage({ command : Network.SaveDice, number : pushingDice, saved : dices[pushingDice][$ "saved"]});
 		}
 		else if (dices[pushingDice][$ "saved"]) {
 			dices[pushingDice][$ "saved"] = false;
+			if(dices[pushingDice][$ "face"] == Faces.Bomb){
+				sendMessage({ command : Network.ChangeBomb, amount : -1 });
+			}
 			sendMessage({ command : Network.SaveDice, number : pushingDice, saved : dices[pushingDice][$ "saved"]});
 		}
 		pushingDice = -1;

@@ -243,6 +243,9 @@ if (canInteract and resolvePhase) {
 			break;
 		case Faces.Beer:
 			for (var i = 0; i < array_length(global.players); ++i) {
+				if(global.players[i][$ "life"] <= 0){
+					continue;
+				}
 			    _x = positions[i][0];
 				_xx = global.playerspos[i][$ "endx"];
 				_y = positions[i][1];
