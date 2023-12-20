@@ -296,6 +296,7 @@ switch(ability){
 		}
 		break;
 	case Characters.CalamityJanet:
+		if(resolvingDice == array_length(dices)){break;}
 		var _face = dices[resolvingDice][$ "face"];
 		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
 			switch (_face){
