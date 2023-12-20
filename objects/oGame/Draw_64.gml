@@ -140,6 +140,9 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	draw_rectangle_color(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], _color, _color, _color, _color, true);
 	draw_rectangle(_x, _y, _x + 64, _y + 64, true);
 	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
+	if(_text == "Sheriff"){
+		draw_sprite_ext(sSheriff, 0, _x, _y, 0.75, 0.75, 0, c_white, 1);
+	}
 	_x += 74;
 	var _name = global.players[i].username;
 	draw_text(_x, _y, _name);

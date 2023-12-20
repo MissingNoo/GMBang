@@ -38,6 +38,7 @@
   },
   "resources": [
     {"id":{"name":"oGame","path":"objects/oGame/oGame.yy",},},
+    {"id":{"name":"sSheriff","path":"sprites/sSheriff/sSheriff.yy",},},
     {"id":{"name":"Window","path":"scripts/Window/Window.yy",},},
     {"id":{"name":"sCharacters","path":"sprites/sCharacters/sCharacters.yy",},},
     {"id":{"name":"rGame","path":"rooms/rGame/rGame.yy",},},

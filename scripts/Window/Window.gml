@@ -1,4 +1,4 @@
-function draw_window(x, y, xx, yy, title, titlesize = 25,titlePos = 15, fontsize = 1, backgroundAlpha = .35){
+/*function draw_window(x, y, xx, yy, title, titlesize = 25,titlePos = 15, fontsize = 1, backgroundAlpha = .35){
 	draw_set_alpha(backgroundAlpha);
 	draw_set_color(c_black);
 	draw_rectangle(x, y, xx, yy, false);
