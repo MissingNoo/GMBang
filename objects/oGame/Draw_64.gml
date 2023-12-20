@@ -47,7 +47,7 @@ if (firstRoll) {
 }
 else {
 	for (var i = 0; i < array_length(dices); ++i) {
-		if (!dices[i].saved) {
+		if (!dices[i][$ "saved"]) {
 		    draw_sprite_ext(sDice, dices[i].face, dices[i].x, dices[i].y, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 		}
 	}
@@ -263,5 +263,34 @@ if (resolvePhase) {
 		resolvePhase = false;
 	    sendMessage({ command : Network.NextTurn });
 	}
+}
+#endregion
+if(waiting){
+	var _username = "";
+	for (var i = 0; i < array_length(global.players); i += 1) {
+		if(global.players[i][$ "port"] == waitingPlayer){
+			_username = global.players[i][$ "username"];
+		}
+	}
+	draw_text(GW/2, GH/2 - 50, $"Waiting for: {_username}");
+}
+#region skills
+if(waiting)
+{
+	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), $"abi: {ability}");
+switch(ability){
+	case Characters.BartCassidy:
+		if(button(GW/2, GH/2, "Usar", 1)){
+			sendMessage({ command : Network.Heal, port : global.players[myposition][$ "port"] });
+			sendMessage({ command : Network.AddArrow });
+			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
+			ability = -1;
+		}
+		if(button(GW/2 + 50, GH/2, "Não usar", 1)){
+			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
+			ability = -1;
+		}
+		break;
+}
 }
 #endregion

@@ -18,7 +18,8 @@ enum Network {
 	UpdatePlayers,
 	Damage,
 	Heal,
-	Gatling
+	Gatling,
+	Waiting
 }
 function clientReceivedPacket2(_response)
 {
@@ -30,6 +31,15 @@ function clientReceivedPacket2(_response)
 		//	global.socket = r[$ "socket"];
 		//	//show_debug_message(r[$"socket"]);
 	    //    break;
+		case Network.Waiting:
+			oGame.waiting = r[$ "waiting"];
+			if(r[$ "waiting"]){
+				oGame.waitingPlayer = r[$ "player"];
+			}
+			else{
+				oGame.waitingPlayer = -1;
+			}
+			break;
 		case Network.Roll:
 			oGame.rolling = true;
 			oGame.alarm[0] = 100;
@@ -86,9 +96,34 @@ function clientReceivedPacket2(_response)
 			}
 			break;
 		case Network.UpdatePlayers:
+			if(instance_exists(oGame))
+			{
+			    oGame.turnHP = global.players[oGame.myposition][$ "life"];
+			}
 			global.players = json_parse(r[$ "players"]);
-			if (r[$ "arrows"] != undefined){
-				oGame.arrows = r[$ "arrows"];
+			if(instance_exists(oGame)){
+			    if (r[$ "arrows"] != undefined){
+				    oGame.arrows = r[$ "arrows"];
+			    }
+			
+				#region skills
+				//Bart
+				var myposition = oGame.myposition;
+				switch(global.players[myposition][$ "character"])
+				{
+					case Characters.BartCassidy:
+						//show_debug_message($"turnhp: {oGame.turnHP} : currenthp: {global.players[myposition][$ "life"]}");
+						if(global.players[myposition][$ "life"] < oGame.turnHP and oGame.arrows > 1){
+							oGame.waiting = true;
+							oGame.waitingPlayer = global.players[myposition][$ "port"];
+							show_message(oGame.ability);
+							oGame.ability = Characters.BartCassidy;
+							show_message(oGame.ability);
+							sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : true});
+						}
+						break;
+				}
+				#endregion
 			}
 			break;
 		// case Network.PlayerJoined:{
@@ -105,7 +140,7 @@ function clientReceivedPacket2(_response)
 		//		break;}
 				
 		//case Network.PlayerMoved:{
-		//	//show_debug_message(r);
+		//	//show_deFg_message(r);
 		//	var _s = r[$ "socket"];
 		//	var _x = r[$ "x"];
 		//	var _y = r[$ "y"];

@@ -1,7 +1,11 @@
 display_set_gui_size(1366, 768);
+turnHP = 0;
+ability = -1;
 jobalpha = 1;
 gatling = 0;
 arrows = 0;
+waiting = false;
+waitingPlayer = -1;
 dices = [ { face : 0, x : 520, saved : 0, y : 305 },{ face : 1, x : 555, saved : 0, y : 434 },{ face : 2, x : 661, saved : 0, y : 369 },{ face : 5, x : 804, saved : 0, y : 293 },{ face : 1, x : 823, saved : 0, y : 453 } ];
 firstRoll = true;
 myposition = 0;

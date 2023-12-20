@@ -65,7 +65,7 @@ if (!firstRoll) {
 			}
 		}
 		for (var i = 0; i < array_length(dices); ++i) {
-			if (dices[i].saved) {
+			if (dices[i][$ "saved"]) {
 			    var _w = sprite_get_width(sDice) / 2 + 6;
 			    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dropArea[0], dropArea[1] + _yoffset, dropArea[0] + (_w * 2), dropArea[1] + (_w * 2) + _yoffset) and dices[i][$ "face"] != Faces.Bomb) {
 					pushingDice = i;
