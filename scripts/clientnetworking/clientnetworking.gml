@@ -113,12 +113,10 @@ function clientReceivedPacket2(_response)
 				{
 					case Characters.BartCassidy:
 						//show_debug_message($"turnhp: {oGame.turnHP} : currenthp: {global.players[myposition][$ "life"]}");
-						if(global.players[myposition][$ "life"] < oGame.turnHP and oGame.arrows > 1){
+						if(global.players[myposition][$ "lastdamage"] == DamageType.Normal and global.players[myposition][$ "life"] < oGame.turnHP and oGame.arrows > 1){
 							oGame.waiting = true;
 							oGame.waitingPlayer = global.players[myposition][$ "port"];
-							show_message(oGame.ability);
 							oGame.ability = Characters.BartCassidy;
-							show_message(oGame.ability);
 							sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : true});
 						}
 						break;

@@ -1,3 +1,16 @@
+if(waitingPlayer != -1){
+	var _show = true;
+	if(global.players[oGame.myposition][$ "port"] == oGame.waitingPlayer){
+		_show = true;
+	}
+	else{
+		_show = false;
+	}
+	canInteract = _show
+}
+else{
+	canInteract = true;
+}
 //updateHit();
 if (keyboard_check_pressed(vk_f2)) {
     window_set_size(window_get_width()*1.25, window_get_height()*1.25);

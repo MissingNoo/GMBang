@@ -21,17 +21,8 @@ global.loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
 	}*/
 //}
 function button(_x, _y, text, fontsize){
-	if(instance_exists(oGame) and oGame.waitingPlayer != -1){
-		var _show = true;
-		if(global.players[oGame.myposition][$ "port"] == oGame.waitingPlayer){
-			_show = true;
-		}
-		else{
-			_show = false;
-		}
-		if(!_show){
-			exit;
-		}
+	if(instance_exists(oGame) and !oGame.canInteract){
+		exit;
 	}
 	var _clicked = false;
 	var _w = (string_width(text) * fontsize) / 2 + 5;

@@ -63,10 +63,10 @@ else {
 if (pushingDice != -1) {
 	draw_sprite_ext(sDice, dices[pushingDice].face, device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), 1, 1, 0, c_white, 1);
 }
-if (!rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "bombs"] >= 3 and button(GW/2 - 242, GH/2 - 150, $"Pular turno!", 1)) {
+if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "bombs"] >= 3 and button(GW/2 - 242, GH/2 - 150, $"Pular turno!", 1)) {
     sendMessage({ command : Network.NextTurn });
 }
-if (!rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "rolls"] > 0 and _totalSaved != array_length(dices) and global.players[currentTurn][$ "bombs"] < 3 and button(GW/2 - 242, GH/2 - 150, $"Rolar ({global.players[currentTurn][$ "rolls"]})", 1) ) {
+if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "rolls"] > 0 and _totalSaved != array_length(dices) and global.players[currentTurn][$ "bombs"] < 3 and button(GW/2 - 242, GH/2 - 150, $"Rolar ({global.players[currentTurn][$ "rolls"]})", 1) ) {
 	if (!rolling) {
 		var _saved = [];
 		for (var i = 0; i < array_length(dices); ++i) {
@@ -77,7 +77,7 @@ if (!rolling and global.players[currentTurn].port == global.playerid and global.
 	    sendMessage({ command : Network.Roll, saved : json_stringify(_saved) });
 	}
 }
-if (!rolling and global.players[currentTurn].port == global.playerid and (global.players[currentTurn][$ "rolls"] == 0 or _totalSaved == array_length(dices)) and global.players[currentTurn][$ "bombs"] < 3 and !actions and button(GW/2 - 242, GH/2 - 150, $"Finalizar turno!", 1)) {
+if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and (global.players[currentTurn][$ "rolls"] == 0 or _totalSaved == array_length(dices)) and global.players[currentTurn][$ "bombs"] < 3 and !actions and button(GW/2 - 242, GH/2 - 150, $"Finalizar turno!", 1)) {
 	gatling = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
 	    if (dices[i].face != Faces.Arrow and dices[i].face != Faces.Bomb and dices[i].face != Faces.Gatling) {
@@ -170,7 +170,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 #endregion
 
 #region Resolve Phase
-if (resolvePhase) {
+if (canInteract and resolvePhase) {
 	var _noaction = true;
 	for (var i = 0; i < array_length(dices); i += 1) {
 		if (dices[i][$ "face"] == Faces.Beer or dices[i][$ "face"] == Faces.Hit1 or dices[i][$ "face"] == Faces.Hit2){
@@ -272,7 +272,11 @@ if(waiting){
 			_username = global.players[i][$ "username"];
 		}
 	}
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
 	draw_text(GW/2, GH/2 - 50, $"Waiting for: {_username}");
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
 }
 #region skills
 if(waiting)

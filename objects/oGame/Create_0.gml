@@ -1,4 +1,5 @@
 display_set_gui_size(1366, 768);
+canInteract = true;
 turnHP = 0;
 ability = -1;
 jobalpha = 1;

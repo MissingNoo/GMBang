@@ -34,3 +34,9 @@ enum Roles {
 	Outlaw,
 	Renegade
 }
+
+enum DamageType {
+    Normal,
+    Indian,
+    Dynamite
+}
