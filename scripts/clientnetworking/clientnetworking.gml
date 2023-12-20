@@ -20,7 +20,8 @@ enum Network {
 	Heal,
 	Gatling,
 	Waiting,
-	ChangeBomb
+	ChangeBomb,
+	ChangeDice
 }
 function clientReceivedPacket2(_response)
 {
@@ -40,6 +41,9 @@ function clientReceivedPacket2(_response)
 			else{
 				oGame.waitingPlayer = -1;
 			}
+			break;
+		case Network.ChangeDice:
+			oGame.dices[r[$ "id"]][$ "face"] = r[$ "face"];
 			break;
 		case Network.Roll:
 			oGame.rolling = true;
@@ -110,6 +114,10 @@ function clientReceivedPacket2(_response)
 				#region skills
 				//Bart
 				var myposition = oGame.myposition;
+				oGame.ability = -1;
+				if(oGame.currentTurn != myposition){
+					break;
+				}
 				switch(global.players[myposition][$ "character"])
 				{
 					case Characters.BartCassidy:
@@ -120,6 +128,12 @@ function clientReceivedPacket2(_response)
 							oGame.ability = Characters.BartCassidy;
 							sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : true});
 						}
+						break;
+					case Characters.CalamityJanet:
+						oGame.ability = Characters.CalamityJanet;
+						break;
+					default:
+						oGame.ability = -1;
 						break;
 				}
 				#endregion

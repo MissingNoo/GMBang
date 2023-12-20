@@ -282,9 +282,6 @@ if(waiting){
 	draw_set_valign(fa_top);
 }
 #region skills
-if(waiting)
-{
-	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), $"abi: {ability}");
 switch(ability){
 	case Characters.BartCassidy:
 		if(button(GW/2, GH/2, "Usar", 1)){
@@ -293,11 +290,24 @@ switch(ability){
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 			ability = -1;
 		}
-		if(button(GW/2 + 50, GH/2, "Não usar", 1)){
+		if(button(GW/2 + 100, GH/2, "Nao usar", 1)){
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 			ability = -1;
 		}
 		break;
-}
+	case Characters.CalamityJanet:
+		var _face = dices[resolvingDice][$ "face"];
+		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
+			switch (_face){
+				case Faces.Hit1:
+					_face = Faces.Hit2;
+					break;
+				case Faces.Hit2:
+					_face = Faces.Hit1;
+					break;
+			}
+			sendMessage({ command : Network.ChangeDice, id : resolvingDice, face : _face});
+		}
+		break;
 }
 #endregion
