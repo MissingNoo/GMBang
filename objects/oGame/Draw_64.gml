@@ -308,22 +308,40 @@ if(waiting){
 	}
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_middle);
-	draw_text(GW/2, GH/2 - 50, $"Waiting for: {_username}");
+	draw_text(GW/2, GH/2 - 50, $"Waiting for: {_username} : {ability}");
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
 }
 #region skills
+if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJanet){}
+else{exit;}
 switch(ability){
 	case Characters.BartCassidy:
 		if(button(GW/2, GH/2, "Usar", 1)){
 			sendMessage({ command : Network.Heal, port : global.players[myposition][$ "port"] });
 			sendMessage({ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] });
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
-			ability = -1;
+			//ability = -1;
 		}
 		if(button(GW/2 + 100, GH/2, "Nao usar", 1)){
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
-			ability = -1;
+			//ability = -1;
+		}
+		break;
+	case Characters.PedroRamirez:
+		if(global.players[myposition][$ "arrows"] > 0){
+			if(button(GW/2, GH/2, "Usar", 1)){
+				sendMessage({ command : Network.AddArrow, amount : -1, port : global.players[myposition][$ "port"] });
+				sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
+				//ability = -1;
+			}
+			if(button(GW/2 + 100, GH/2, "Nao usar", 1)){
+				sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
+				//ability = -1;
+			}
+		}
+		else{
+			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 		}
 		break;
 	case Characters.CalamityJanet:

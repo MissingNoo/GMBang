@@ -124,3 +124,4 @@ if (!firstRoll) {
 		pushingDice = -1;
 	}
 }
+ability = global.players[myposition][$ "character"];

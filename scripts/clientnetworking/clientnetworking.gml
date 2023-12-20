@@ -114,10 +114,10 @@ function clientReceivedPacket2(_response)
 				#region skills
 				//Bart
 				var myposition = oGame.myposition;
-				oGame.ability = -1;
-				if(oGame.currentTurn != myposition){
-					break;
-				}
+				//oGame.ability = -1;
+				//if(oGame.currentTurn != myposition){
+				//	break;
+				//}
 				switch(global.players[myposition][$ "character"])
 				{
 					case Characters.BartCassidy:
@@ -129,11 +129,19 @@ function clientReceivedPacket2(_response)
 							sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : true});
 						}
 						break;
+					case Characters.PedroRamirez:
+						if(global.players[myposition][$ "lastdamage"] == DamageType.Normal and global.players[myposition][$ "life"] < oGame.turnHP){
+							oGame.waiting = true;
+							oGame.waitingPlayer = global.players[myposition][$ "port"];
+							oGame.ability = Characters.PedroRamirez;
+							sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : true});
+						}
+						break;
 					case Characters.CalamityJanet:
 						oGame.ability = Characters.CalamityJanet;
 						break;
 					default:
-						oGame.ability = -1;
+						//oGame.ability = -1;
 						break;
 				}
 				#endregion
