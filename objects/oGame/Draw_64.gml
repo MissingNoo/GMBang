@@ -77,9 +77,16 @@ if (canInteract and !rolling and global.players[currentTurn].port == global.play
 	    sendMessage({ command : Network.Roll, saved : json_stringify(_saved) });
 	}
 }
-if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and (global.players[currentTurn][$ "rolls"] == 0 or _totalSaved == array_length(dices)) and global.players[currentTurn][$ "bombs"] < 3 and !actions and button(GW/2 - 242, GH/2 - 150, $"Finalizar turno!", 1)) {
+if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and (global.players[currentTurn][$ "rolls"] == 0 or _totalSaved == array_length(dices)) and global.players[currentTurn][$ "bombs"] < 3 and !actions and !resolvePhase and button(GW/2 - 242, GH/2 - 150, $"Finalizar turno!", 1)) {
 	gatling = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
+		if(dices[i][$ "face"] == Faces.Gatling){
+			gatling++;
+			var _gatlingMinimum = 3;
+			if (gatling >= _gatlingMinimum) {
+				sendMessage({ command : Network.Gatling });
+			}
+		}
 	    if (dices[i].face != Faces.Arrow and dices[i].face != Faces.Bomb and dices[i].face != Faces.Gatling) {
 		    actions=true;
 			resolvingDice = 0;
@@ -173,7 +180,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 if (canInteract and resolvePhase) {
 	var _noaction = true;
 	for (var i = 0; i < array_length(dices); i += 1) {
-		if (dices[i][$ "face"] == Faces.Beer or dices[i][$ "face"] == Faces.Hit1 or dices[i][$ "face"] == Faces.Hit2){
+		if (dices[i][$ "face"] == Faces.Beer or dices[i][$ "face"] == Faces.Hit1 or dices[i][$ "face"] == Faces.Hit2 or (dices[i][$ "face"] == Faces.Gatling and global.players[myposition][$ "character"] == Characters.KitCarlson)){
 			_noaction = false;
 		}		
 	}
@@ -231,12 +238,36 @@ if (canInteract and resolvePhase) {
 			resolvingDice++;
 			break;
 		case Faces.Gatling:
-			gatling++;
-			var _gatlingMinimum = 3;
-			if (gatling >= _gatlingMinimum) {
-				sendMessage({ command : Network.Gatling });
+			if(global.players[myposition][$ "character"] == Characters.KitCarlson and gatling > 0){
+				var _someoneHasArrows = false;
+				for (var i = 0; i < array_length(global.players); ++i) {
+					if(global.players[i][$ "arrows"] > 0){
+						_someoneHasArrows = true;
+					}
+				}
+				if(!_someoneHasArrows){resolvingDice++;}
+				for (var i = 0; i < array_length(global.players); ++i) {
+					if(global.players[i][$ "life"] <= 0 or global.players[i][$ "arrows"] <= 0){
+						continue;
+					}
+					_x = positions[i][0];
+					_xx = global.playerspos[i][$ "endx"];
+					_y = positions[i][1];
+					_yy = global.playerspos[i][$ "endy"];
+					draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+					if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
+						var _amount = -1;
+						if(gatling >= 3){_amount = -3};
+						gatling = 0;
+						sendMessage({ command : Network.AddArrow, amount : _amount, port : global.players[i][$ "port"] });
+						resolvingDice++;
+						break;
+					}
+				}
 			}
-			resolvingDice++;
+			else{
+				resolvingDice++;
+			}
 			break;
 		case Faces.Arrow:
 			resolvingDice++;
@@ -286,7 +317,7 @@ switch(ability){
 	case Characters.BartCassidy:
 		if(button(GW/2, GH/2, "Usar", 1)){
 			sendMessage({ command : Network.Heal, port : global.players[myposition][$ "port"] });
-			sendMessage({ command : Network.AddArrow });
+			sendMessage({ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] });
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 			ability = -1;
 		}
