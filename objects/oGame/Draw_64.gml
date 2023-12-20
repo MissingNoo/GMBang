@@ -313,7 +313,7 @@ if(waiting){
 	draw_set_valign(fa_top);
 }
 #region skills
-if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJanet){}
+if ((waiting or global.players[myposition][$ "character"] == Characters.CalamityJanet)){}
 else{exit;}
 switch(ability){
 	case Characters.BartCassidy:
@@ -345,7 +345,7 @@ switch(ability){
 		}
 		break;
 	case Characters.CalamityJanet:
-		if(resolvingDice == array_length(dices)){break;}
+		if(resolvingDice == array_length(dices) or currentTurn != myposition){break;}
 		var _face = dices[resolvingDice][$ "face"];
 		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
 			switch (_face){
