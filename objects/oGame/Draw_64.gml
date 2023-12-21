@@ -273,21 +273,7 @@ if (canInteract and resolvePhase) {
 			resolvingDice++;
 			break;
 		case Faces.Beer:
-			for (var i = 0; i < array_length(global.players); ++i) {
-				if(global.players[i][$ "life"] <= 0){
-					continue;
-				}
-			    _x = positions[i][0];
-				_xx = global.playerspos[i][$ "endx"];
-				_y = positions[i][1];
-				_yy = global.playerspos[i][$ "endy"];
-				draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
-				if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-				    sendMessage({ command : Network.Heal, port : global.players[i][$ "port"] });
-					resolvingDice++;
-					break;
-				}
-			}
+			beer();
 			break;
 	    default:
 	        // code here
@@ -313,7 +299,7 @@ if(waiting){
 	draw_set_valign(fa_top);
 }
 #region skills
-if ((waiting or global.players[myposition][$ "character"] == Characters.CalamityJanet)){}
+if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJanet or global.players[myposition][$ "character"] == Characters.SidKetchum){}
 else{exit;}
 switch(ability){
 	case Characters.BartCassidy:
@@ -357,6 +343,15 @@ switch(ability){
 					break;
 			}
 			sendMessage({ command : Network.ChangeDice, id : resolvingDice, face : _face});
+		}
+		break;
+	case Characters.SidKetchum:
+		if(currentTurn != myposition){break;}
+		if(global.players[myposition][$ "canUseSkill"]){
+			if(beer()){
+				global.players[myposition][$ "canUseSkill"] = false;
+				sendMessage({ command : Network.UsedSkill });
+			}
 		}
 		break;
 }

@@ -21,7 +21,8 @@ enum Network {
 	Gatling,
 	Waiting,
 	ChangeBomb,
-	ChangeDice
+	ChangeDice,
+	UsedSkill
 }
 function clientReceivedPacket2(_response)
 {

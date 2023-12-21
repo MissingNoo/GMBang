@@ -18,17 +18,15 @@
             "type": "node", 
             "request": "launch",
             "name": "Run",
-            "runtimeExecutable": "/usr/local/bin/Igor.sh",
+            "runtimeExecutable": "${workspaceFolder}/.vscode/Igor.sh",
             "program": "${workspaceFolder}/tmp/build.bff",
-            
         },
         {
             "type": "node", 
             "request": "launch",
             "name": "ReRun",
-            "runtimeExecutable": "/usr/local/bin/IgorRepeat.sh",
+            "runtimeExecutable": "${workspaceFolder}/.vscode/IgorRepeat.sh",
             "program": "${workspaceFolder}/tmp/rerun.bff",
-            
         }
     ]
 }

@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/local/bin/Igor  -j=8  -options=$1 -v -- Linux Run
+/home/airgeadlamh/.local/share/GameMakerStudio2-Beta/Cache/runtimes/runtime-2023.1100.0.459/bin/igor/linux/x64/Igor -j=8  -options=$1 -v -- Linux Run
