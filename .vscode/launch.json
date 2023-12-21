@@ -13,6 +13,22 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\..\\GMBang-Server\\server.js"
+        },
+        {
+            "type": "node", 
+            "request": "launch",
+            "name": "Run",
+            "runtimeExecutable": "/usr/local/bin/Igor.sh",
+            "program": "${workspaceFolder}/tmp/build.bff",
+            
+        },
+        {
+            "type": "node", 
+            "request": "launch",
+            "name": "ReRun",
+            "runtimeExecutable": "/usr/local/bin/Igor.sh",
+            "program": "${workspaceFolder}/tmp/rerun.bff",
+            
         }
     ]
 }
