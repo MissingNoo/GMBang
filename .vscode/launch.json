@@ -26,7 +26,7 @@
             "type": "node", 
             "request": "launch",
             "name": "ReRun",
-            "runtimeExecutable": "/usr/local/bin/Igor.sh",
+            "runtimeExecutable": "/usr/local/bin/IgorRepeat.sh",
             "program": "${workspaceFolder}/tmp/rerun.bff",
             
         }
