@@ -44,8 +44,8 @@ function button(_x, _y, text, fontsize){
 function gui_button(_x, _y, color, size){
 	if(instance_exists(oGame) and !oGame.canInteract){ exit; }
 	var _clicked = false;
-	_w = sprite_get_width(sGuiButtonRim) * size;
-	_h = sprite_get_height(sGuiButtonRim) * size;
+	var _w = sprite_get_width(sGuiButtonRim) * size;
+	var _h = sprite_get_height(sGuiButtonRim) * size;
 	var _mouseHold = device_mouse_check_button(0, mb_left);
 	var _mouseRelease = device_mouse_check_button_released(0, mb_left);
 	var _mouseOnButton = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _x  + _w, _y + _h);
