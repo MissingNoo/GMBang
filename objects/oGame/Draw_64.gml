@@ -307,20 +307,11 @@ if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJ
 else{exit;}
 switch(ability){
 	case Characters.BartCassidy:
-		var _button = [GW/2 - 190, GH/2 - 90, 4.50, 2.75];
-		draw_sprite_ext(sGuiMessage, 0, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
-		draw_sprite_ext(sGuiMessage, 1, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
-		draw_text_ext_transformed(_xx + 25, _yy + 15, "Deseja usar sua habilidade? " + global.skills[global.players[myposition][$ "character"]], 15, 265, 1.5, 1.5, 0);
-		if(gui_button(GW/2+160, GH/2 + 65, c_green, 1.50)){
-			sendMessage({ command : Network.Heal, port : global.players[myposition][$ "port"] });
-			sendMessage({ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] });
-			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
-			//ability = -1;
-		}
-		if(gui_button(GW/2+100, GH/2 + 65, c_red, 1.50)){
-			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
-			//ability = -1;
-		}
+		var _cancel = { command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false };
+		var _accept = [{ command : Network.Heal, port : global.players[myposition][$ "port"] }, 
+			{ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] },
+			{ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false}];
+		gui_button_question(_accept, _cancel);
 		break;
 	case Characters.PedroRamirez:
 		if(global.players[myposition][$ "arrows"] > 0){

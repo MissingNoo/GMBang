@@ -76,3 +76,30 @@ function gui_button(_x, _y, color, size){
 	draw_sprite_ext(sGuiButtonRim, 0, _x, _y, size, size, 0, c_white, 1);
 	return _clicked;
 }
+function gui_button_question(_accept, _cancel){
+	var _button = [GW/2 - 190, GH/2 - 90, 4.50, 2.75];
+	draw_sprite_ext(sGuiMessage, 0, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
+	draw_sprite_ext(sGuiMessage, 1, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
+	draw_text_ext_transformed(_button[0] + 25, _button[1] + 15, "Deseja usar sua habilidade? " + global.skills[global.players[oGame.myposition][$ "character"]], 15, 265, 1.5, 1.5, 0);
+	if(gui_button(GW/2+160, GH/2 + 65, c_green, 1.50)){
+		if(is_array(_accept)){
+			for (var i = 0; i < array_length(_accept); i += 1) {
+				sendMessage(_accept[i]);
+			}
+		}
+		else{
+			sendMessage(_accept);
+		}
+	}
+
+	if(_cancel != undefined and gui_button(GW/2+100, GH/2 + 65, c_red, 1.50)){
+		if(is_array(_cancel)){
+			for (var i = 0; i < array_length(_cancel); i += 1) {
+				sendMessage(_cancel[i]);
+			}
+		}
+		else{
+			sendMessage(_cancel);
+		}
+	}
+}
