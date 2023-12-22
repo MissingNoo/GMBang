@@ -26,8 +26,15 @@ beer = function(){
 		_xx = global.playerspos[i][$ "endx"];
 		_y = positions[i][1];
 		_yy = global.playerspos[i][$ "endy"];
-		draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
-		if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
+		var _mouseOnTop = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy);
+		if(_mouseOnTop){
+			global.players[i][$ "customColor"] = c_orange;
+		}
+		else{
+			global.players[i][$ "customColor"] = undefined;
+		}		
+		//draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+		if (device_mouse_check_button_pressed(0, mb_left) and _mouseOnTop) {
 			sendMessage({ command : Network.Heal, port : global.players[i][$ "port"] });
 			if(resolvePhase){
 				resolvingDice++;
@@ -141,7 +148,7 @@ updateHit = function(){
 		}
 	}
 }
-debuginfo = { a:1, b:1, c:1};
+debuginfo = { a:1, b:1, c:1, d:1, e:1};
 pushingDice = -1
 dropArea = [GW/2 - 268, GH/2 - 131, GW/2 - 215, GH/2 + 131];
 rolling = false;

@@ -68,6 +68,7 @@ if (canInteract and !rolling and global.players[currentTurn].port == global.play
 }
 if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "rolls"] > 0 and _totalSaved != array_length(dices) and global.players[currentTurn][$ "bombs"] < 3 and button(GW/2 - 242, GH/2 - 150, $"Rolar ({global.players[currentTurn][$ "rolls"]})", 1) ) {
 	if (!rolling) {
+		sendMessage({ command : Network.UsedSkill });
 		var _saved = [];
 		for (var i = 0; i < array_length(dices); ++i) {
 		    if (dices[i].saved) {
@@ -141,12 +142,15 @@ for (var i = 0; i < array_length(global.players); ++i) {
 			_text = "Renegade";
 			break;
 	}
-	var _color = i == currentTurn ? c_blue : c_white;
-	if(_color == c_blue and currentTurn != myposition) { _color = c_purple; }
+	var _color = i == currentTurn ? c_aqua : c_white;
+	if(_color == c_aqua and currentTurn != myposition) { _color = c_aqua; }
 	if(_color == c_white and _text == "Sheriff") { _color = c_yellow; }
-	draw_rectangle_color(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], _color, _color, _color, _color, true);
-	draw_rectangle(_x, _y, _x + 64, _y + 64, true);
+	if(global.players[i][$ "customColor"] != undefined){ _color = global.players[i][$ "customColor"]; }
+	//draw_rectangle_color(_x - 2, _y - 2, global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"], _color, _color, _color, _color, true);
+	//draw_rectangle(_x, _y, _x + 64, _y + 64, true);
+	draw_sprite_ext(sGuiMessage, 0, _x - 10, _y - 9, 2.58, 2, 0, c_white, 1);
 	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
+	draw_sprite_ext(sGuiMessage, 2, _x - 10, _y - 9, 2.58, 2, 0, _color, 1);
 	if(_text == "Sheriff"){
 		draw_sprite_ext(sSheriff, 0, _x, _y, 0.75, 0.75, 0, c_white, 1);
 	}
@@ -303,13 +307,17 @@ if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJ
 else{exit;}
 switch(ability){
 	case Characters.BartCassidy:
-		if(button(GW/2, GH/2, "Usar", 1)){
+		var _button = [GW/2 - 190, GH/2 - 90, 4.50, 2.75];
+		draw_sprite_ext(sGuiMessage, 0, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
+		draw_sprite_ext(sGuiMessage, 1, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
+		draw_text_ext_transformed(_xx + 25, _yy + 15, "Deseja usar sua habilidade? " + global.skills[global.players[myposition][$ "character"]], 15, 265, 1.5, 1.5, 0);
+		if(gui_button(GW/2+160, GH/2 + 65, c_green, 1.50)){
 			sendMessage({ command : Network.Heal, port : global.players[myposition][$ "port"] });
 			sendMessage({ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] });
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 			//ability = -1;
 		}
-		if(button(GW/2 + 100, GH/2, "Nao usar", 1)){
+		if(gui_button(GW/2+100, GH/2 + 65, c_red, 1.50)){
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 			//ability = -1;
 		}
@@ -333,7 +341,7 @@ switch(ability){
 	case Characters.CalamityJanet:
 		if(resolvingDice == array_length(dices) or currentTurn != myposition){break;}
 		var _face = dices[resolvingDice][$ "face"];
-		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
+		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !firstRoll and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
 			switch (_face){
 				case Faces.Hit1:
 					_face = Faces.Hit2;
@@ -348,6 +356,10 @@ switch(ability){
 	case Characters.SidKetchum:
 		if(currentTurn != myposition){break;}
 		if(global.players[myposition][$ "canUseSkill"]){
+			var _button = [GW/2 - 190, GH/2 - 65, 4.50, 2];
+			draw_sprite_ext(sGuiMessage, 0, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
+			draw_sprite_ext(sGuiMessage, 1, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
+			draw_text_ext_transformed(_button[0] + 25, _button[1] + 15, global.skills[global.players[myposition][$ "character"]], 15, 263, 1.5, 1.5, 0);
 			if(beer()){
 				global.players[myposition][$ "canUseSkill"] = false;
 				sendMessage({ command : Network.UsedSkill });

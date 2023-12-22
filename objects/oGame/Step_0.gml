@@ -30,6 +30,10 @@ var _b = (keyboard_check_pressed(vk_home) - keyboard_check_pressed(vk_end)) * _m
 debuginfo.b += _b;
 var _c = (keyboard_check_pressed(vk_insert) - keyboard_check_pressed(vk_delete)) * _mult;
 debuginfo.c += _c;
+var _d = (keyboard_check_pressed(vk_numpad7) - keyboard_check_pressed(vk_numpad8)) * _mult;
+debuginfo.d += _d;
+var _e = (keyboard_check_pressed(vk_numpad4) - keyboard_check_pressed(vk_numpad5)) * _mult;
+debuginfo.e += _e;
 //if (keyboard_check_pressed(vk_enter)) {
 //    dices[array_length(dices)] = {
 //		face : irandom_range(0, 5),

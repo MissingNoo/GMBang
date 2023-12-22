@@ -49,8 +49,8 @@ function clientReceivedPacket2(_response)
 		case Network.Roll:
 			oGame.rolling = true;
 			oGame.alarm[0] = 100;
-			oGame.result = json_parse(r[$ "dicejson"]);
 			oGame.firstRoll = false;
+			oGame.result = json_parse(r[$ "dicejson"]);			
 			break;
 		case Network.JoinRoom:
 			global.roomname = r[$ "roomname"];

@@ -41,3 +41,38 @@ function button(_x, _y, text, fontsize){
 	}
 	return _clicked;
 }
+function gui_button(_x, _y, color, size){
+	if(instance_exists(oGame) and !oGame.canInteract){ exit; }
+	var _clicked = false;
+	_w = sprite_get_width(sGuiButtonRim) * size;
+	_h = sprite_get_height(sGuiButtonRim) * size;
+	var _mouseHold = device_mouse_check_button(0, mb_left);
+	var _mouseRelease = device_mouse_check_button_released(0, mb_left);
+	var _mouseOnButton = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _x  + _w, _y + _h);
+	var _spr = 0;
+	if(_mouseOnButton and !_mouseHold){
+		_spr = 1;
+	}
+	if(_mouseOnButton and _mouseHold){
+		_spr = 2;
+	}
+	if(_mouseOnButton and _mouseRelease){
+		_clicked = true;
+	}
+	var _inside = sGuiButtonConfirm;
+	var _icon = 0;
+	switch(color){
+		case c_red:
+			_inside = sGuiButtonCancel;
+			_icon = 1;
+			break;
+		case c_green:
+			_inside = sGuiButtonConfirm;
+			_icon = 0;
+			break;
+	}
+	draw_sprite_ext(_inside, _spr, _x, _y, size, size, 0, c_white, 1);
+	draw_sprite_ext(sGuiButtonIcon, _icon, _x, _y, size, size, 0, c_white, 1);
+	draw_sprite_ext(sGuiButtonRim, 0, _x, _y, size, size, 0, c_white, 1);
+	return _clicked;
+}

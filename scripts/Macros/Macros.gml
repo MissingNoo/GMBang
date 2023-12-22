@@ -40,3 +40,7 @@ enum DamageType {
     Indian,
     Dynamite
 }
+
+global.skills = array_create(Characters.WillytheKid, "");
+global.skills[Characters.BartCassidy] = "Voce pode pegar uma flecha em vez de perder um ponto de vida (exceto para Indios ou Dinamite)."
+global.skills[Characters.SidKetchum] = "No inicio do seu turno, qualquer jogador a sua escolha ganha um ponto de vida.";
