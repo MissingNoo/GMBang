@@ -8,11 +8,11 @@
             "type": "node",            
             "request": "launch",
             "name": "Launch Program",
-            "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+            "runtimeExecutable": "/usr/bin/node",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\..\\GMBang-Server\\server.js"
+            "program": "${workspaceFolder}/../GMBang-Server/server.js"
         },
         {
             "type": "node", 

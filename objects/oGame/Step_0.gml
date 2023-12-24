@@ -129,3 +129,4 @@ if (!firstRoll) {
 	}
 }
 ability = global.players[myposition][$ "character"];
+if(resolvePhase){firstRoll = true;}
