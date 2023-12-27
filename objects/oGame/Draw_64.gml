@@ -41,7 +41,7 @@ if (firstRoll) {
 	var _yoffset = 0;
     for (var i = 0; i < array_length(dices); ++i) {
 		var _w = sprite_get_width(sDice) / 2 + 6;
-	    draw_sprite_ext(sDice, dices[i].face, dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
+	    draw_sprite_ext(sDice, dices[i][$ "face"], dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 		_yoffset += 53;
 	}
 }
@@ -68,7 +68,13 @@ if (canInteract and !rolling and global.players[currentTurn].port == global.play
 }
 if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "rolls"] > 0 and _totalSaved != array_length(dices) and global.players[currentTurn][$ "bombs"] < 3 and button(GW/2 - 242, GH/2 - 150, $"Rolar ({global.players[currentTurn][$ "rolls"]})", 1) ) {
 	if (!rolling) {
-		sendMessage({ command : Network.UsedSkill });
+		switch(global.players[myposition][$ "character"]){
+			case Characters.SidKetchum:
+				sendMessage({ command : Network.UsedSkill });
+				break;
+			default:
+				break;
+		}
 		var _saved = [];
 		for (var i = 0; i < array_length(dices); ++i) {
 		    if (dices[i].saved) {
@@ -193,19 +199,34 @@ if (canInteract and resolvePhase) {
 	}
 	switch (dices[resolvingDice].face) {
 	    case Faces.Hit1:
-			can_hit(1);
-	        if(select_hit()){break;}
-			if(global.players[myposition][$ "character"] == Characters.RoseDoolan){
-				can_hit(2);
-	        	if(select_hit()){break;}
-			}
-	        break;
 	    case Faces.Hit2:
-			can_hit(2);
-	        if(select_hit()){break;}
-			if(global.players[myposition][$ "character"] == Characters.RoseDoolan){
-				can_hit(3);
-	        	if(select_hit()){break;}
+			var _distance = 0;
+			if(dices[resolvingDice][$ "face"] == Faces.Hit1){
+				_distance = 1;
+			}
+			if(dices[resolvingDice][$ "face"] == Faces.Hit1){
+				_distance = 2;
+			}
+			can_hit(_distance);
+	        if(select_hit(dices[resolvingDice][$ "damage"])){break;}
+			switch(global.players[myposition][$ "character"]){
+				case Characters.RoseDoolan:
+					can_hit(_distance + 1);
+	        		if(select_hit(dices[resolvingDice][$ "damage"])){break;}
+					break;
+				case Characters.SlabtheKiller:
+					if(global.players[myposition][$ "canUseSkill"] and have_beer() and button(GW/2, GH/2, "Dobrar Dano", 1)){
+						for (var i = 0; i < array_length(dices); i += 1) {
+							if(dices[i][$ "face"] == Faces.Beer and dices[i][$ "used"] == undefined){
+								dices[i][$ "used"] = true;
+								break;
+							}							
+						}
+						dices[resolvingDice][$ "damage"] = 2;
+						global.players[myposition][$ "canUseSkill"] = false;
+						sendMessage({ command : Network.UsedSkill });
+					}
+					break;
 			}
 	        break;
 		case Faces.Bomb:
@@ -247,6 +268,12 @@ if (canInteract and resolvePhase) {
 			resolvingDice++;
 			break;
 		case Faces.Beer:
+			if(global.players[myposition][$ "character"] == Characters.SlabtheKiller){
+				if(button(GW/2, GH/2, "Nao usar cerveja", 1)){
+					resolvingDice++;
+				}
+			}
+			if(dices[resolvingDice][$ "used"] != undefined){ resolvingDice++; }
 			beer();
 			break;
 	    default:

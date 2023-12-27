@@ -50,7 +50,15 @@ function clientReceivedPacket2(_response)
 			oGame.rolling = true;
 			oGame.alarm[0] = 100;
 			oGame.firstRoll = false;
-			oGame.result = json_parse(r[$ "dicejson"]);			
+			oGame.result = json_parse(r[$ "dicejson"]);
+			for (var i = 0; i < array_length(oGame.dices); i += 1) {
+				if(oGame.dices[i][$ "face"] == Faces.Hit1 or oGame.dices[i][$ "face"] == Faces.Hit2){
+					oGame.dices[i][$ "damage"] = 1;
+				}
+				if(oGame.dices[i][$ "face"] == Faces.Beer){
+					oGame.dices[i][$ "skip"] = false;
+				}
+			}
 			break;
 		case Network.JoinRoom:
 			global.roomname = r[$ "roomname"];
@@ -99,6 +107,7 @@ function clientReceivedPacket2(_response)
 			oGame.resolvePhase = false;
 			for (var i = 0; i < array_length(oGame.dices); ++i) {
 			    oGame.dices[i][$ "saved"] = false;
+				oGame.dices[i][$ "used"] = undefined;
 			}
 			break;
 		case Network.UpdatePlayers:

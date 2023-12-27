@@ -17,6 +17,15 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	}
 }
 canhit = [0,0];
+have_beer = function() {
+	var _have = false;
+	for (var i = 0; i < array_length(dices); i += 1) {
+		if(dices[i][$ "face"] == Faces.Beer and dices[i][$ "used"] == undefined){
+			_have = true;
+		}
+	}
+	return _have;
+}
 beer = function(){
 	for (var i = 0; i < array_length(global.players); ++i) {
 		if(global.players[i][$ "life"] <= 0){
@@ -37,6 +46,7 @@ beer = function(){
 		if (device_mouse_check_button_pressed(0, mb_left) and _mouseOnTop) {
 			sendMessage({ command : Network.Heal, port : global.players[i][$ "port"] });
 			if(resolvePhase){
+				dices[resolvingDice][$ "used"] = true;
 				resolvingDice++;
 			}
 			return true;
@@ -93,7 +103,7 @@ function can_hit(distance){
 			}
 		} until (canhit[0] != myposition and global.players[canhit[0]].life > 0);
 	}
-	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), $"me: {myposition} + {distance} = {myposition + distance} == {canhit[0]}");
+	//draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), $"me: {myposition} + {distance} = {myposition + distance} == {canhit[0]}");
 	canhit[1] = myposition - distance;
 	if (canhit[1] < firstplayer){
 		switch (distance){
@@ -125,16 +135,16 @@ function can_hit(distance){
 			}
 		} until (canhit[1] != myposition and global.players[canhit[1]].life > 0);
 	}
-	draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0) + 15, $"me: {myposition} - {distance} = {myposition - distance} == {canhit[1]}");
+	//draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0) + 15, $"me: {myposition} - {distance} = {myposition - distance} == {canhit[1]}");
 }
-select_hit = function(){
+select_hit = function(dmg){
 	var _x = positions[canhit[0]][0];
 	var _xx = global.playerspos[canhit[0]][$ "endx"];
 	var _y = positions[canhit[0]][1];
 	var _yy = global.playerspos[canhit[0]][$ "endy"];
 	draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
 	if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-		sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"] });
+		sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"], damage : dmg });
 		resolvingDice++;
 		return true;
 	}
