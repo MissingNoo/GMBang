@@ -268,7 +268,7 @@ if (canInteract and resolvePhase) {
 			resolvingDice++;
 			break;
 		case Faces.Beer:
-			if(global.players[myposition][$ "character"] == Characters.SlabtheKiller){
+			if(global.players[myposition][$ "canUseSkill"] and global.players[myposition][$ "character"] == Characters.SlabtheKiller){
 				if(button(GW/2, GH/2, "Nao usar cerveja", 1)){
 					resolvingDice++;
 				}
