@@ -1,5 +1,6 @@
 display_set_gui_size(1366, 768);
 suzyRolled = false;
+usedGatling = false;
 canInteract = true;
 totalBombs = 0;
 turnHP = 0;
@@ -155,7 +156,7 @@ select_hit = function(dmg){
 	_yy = global.playerspos[canhit[1]][$ "endy"];
 	draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
 	if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-		sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"] });
+		sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"], damage : dmg });
 		resolvingDice++;
 		return true;
 	}

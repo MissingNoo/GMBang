@@ -12,7 +12,6 @@ for (var i = 0; i < array_length(result); ++i) {
 	switch (dices[i][$ "face"]) {
 	    case Faces.Arrow:
 			if (!dices[i][$ "saved"]) {
-
 			    sendMessage({ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] });
 			}
 	        break;

@@ -48,14 +48,14 @@ if (firstRoll) {
 else {
 	for (var i = 0; i < array_length(dices); ++i) {
 		if (!dices[i][$ "saved"]) {
-		    draw_sprite_ext(sDice, dices[i].face, dices[i].x, dices[i].y, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
+		    draw_sprite_ext(sDice, dices[i][$ "face"], dices[i][$ "x"], dices[i][$ "y"], 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 		}
 	}
 	var _yoffset = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
 	    if (dices[i].saved) {
 			var _w = sprite_get_width(sDice) / 2 + 6;
-		    draw_sprite_ext(sDice, dices[i].face, dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
+		    draw_sprite_ext(sDice, dices[i][$ "face"], dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 			_yoffset += 53;
 		}
 	}
@@ -94,7 +94,11 @@ if (canInteract and !rolling and global.players[currentTurn].port == global.play
 		if(dices[i][$ "face"] == Faces.Gatling){
 			gatling++;
 			var _gatlingMinimum = 3;
-			if (gatling >= _gatlingMinimum) {
+			if(global.players[myposition][$ "character"] == Characters.WillytheKid){
+				_gatlingMinimum = 2;
+			}
+			if (gatling >= _gatlingMinimum and !usedGatling) {
+				usedGatling = true;
 				sendMessage({ command : Network.Gatling });
 			}
 		}
@@ -129,6 +133,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 //	}
 //	draw_rectangle(positions[i][0], positions[i][1], positions[i][0] + 100, positions[i][1] + 50, true);
 //}
+var characterInfo = -1;
 for (var i = 0; i < array_length(global.players); ++i) {
 	//if (global.playerspos[i][$ "x"] != undefined) {
 	var _x = positions[i][0];
@@ -160,6 +165,9 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	//draw_rectangle(_x, _y, _x + 64, _y + 64, true);
 	draw_sprite_ext(sGuiMessage, 0, _x - 10, _y - 9, 2.58, 2, 0, c_white, 1);
 	draw_sprite_stretched(sCharacters, global.players[i][$ "character"], _x, _y, 64, 64);
+	if(point_in_rectangle(MX, MY, _x, _y, _x + 64, _y + 64)){
+		characterInfo = i;
+	}
 	draw_sprite_ext(sGuiMessage, 2, _x - 10, _y - 9, 2.58, 2, 0, _color, 1);
 	if(_text == "Sheriff"){
 		draw_sprite_ext(sSheriff, 0, _x, _y, 0.75, 0.75, 0, c_white, 1);
@@ -167,7 +175,8 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	_x += 74;
 	var _name = global.players[i].username;
 	draw_text(_x, _y, _name);
-	draw_rectangle(_x, _y + string_height(_name), global.playerspos[i][$ "endx"] - 2, _y + string_height(_name) + 1, false);
+	//draw_rectangle(_x, _y + string_height(_name), global.playerspos[i][$ "endx"] - 2, _y + string_height(_name) + 1, false);
+	//draw_circle(_x + debuginfo.a, _y + debuginfo.b, debuginfo.c, true);
 	_y += string_height(_name) + 5;
 	var _offset = 0;
 	for (var j = 0; j < global.players[i][$ "life"]; ++j) {
@@ -208,7 +217,7 @@ if (canInteract and resolvePhase) {
 			if(dices[resolvingDice][$ "face"] == Faces.Hit1){
 				_distance = 1;
 			}
-			if(dices[resolvingDice][$ "face"] == Faces.Hit1){
+			if(dices[resolvingDice][$ "face"] == Faces.Hit2){
 				_distance = 2;
 			}
 			can_hit(_distance);
@@ -303,6 +312,18 @@ if(waiting){
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
 }
+#region Character Info
+//draw_text(GW/2, GH/2, string(characterInfo));
+if(characterInfo != -1){
+	var _text = $"Personagem: {global.characterNames[global.players[characterInfo][$ "character"]]}. \n\nHabilidade:\n{global.skillsFull[global.players[characterInfo][$ "character"]]}";
+	var _w = string_width_ext(_text, 15, 720);
+	var _h = string_height_ext(_text, 15, 720);
+	var _button = [GW/2 - (_w / 2), GH/2 - (_h / 2), _w + 50, _h + 30];
+	draw_sprite_stretched(sGuiMessage, 0, _button[0], _button[1], _button[2], _button[3]);
+	draw_sprite_stretched(sGuiMessage, 1, _button[0], _button[1], _button[2], _button[3]);
+	draw_text_ext(_button[0] + 25, _button[1] + 15, _text, 15, 720);
+}
+#endregion
 #region skills
 if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJanet or global.players[myposition][$ "character"] == Characters.SidKetchum){}
 else{exit;}
@@ -316,15 +337,12 @@ switch(ability){
 		break;
 	case Characters.PedroRamirez:
 		if(global.players[myposition][$ "arrows"] > 0){
-			if(button(GW/2, GH/2, "Usar", 1)){
-				sendMessage({ command : Network.AddArrow, amount : -1, port : global.players[myposition][$ "port"] });
-				sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
-				//ability = -1;
-			}
-			if(button(GW/2 + 100, GH/2, "Nao usar", 1)){
-				sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
-				//ability = -1;
-			}
+			var _cancel = { command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false};
+			var _accept = [
+				{ command : Network.AddArrow, amount : -1, port : global.players[myposition][$ "port"] },
+				{ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false}
+			];
+			gui_button_question(_accept, _cancel);
 		}
 		else{
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});

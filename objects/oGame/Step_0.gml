@@ -77,7 +77,7 @@ if (!firstRoll) {
 			var dice = dices[i];
 			var _w = sprite_get_width(sDice);
 			var _h = sprite_get_height(sDice);
-		    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dice.x - _w, dice.y - _h, dice.x + _w, dice.y + _h) and !dices[i].saved) {
+		    if (pushingDice == -1 and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), dice[$ "x"] - _w, dice[$ "y"] - _h, dice[$ "x"] + _w, dice[$ "y"] + _h) and !dices[i].saved) {
 				pushingDice = i;
 			}
 		}

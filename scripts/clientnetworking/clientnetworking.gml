@@ -100,6 +100,7 @@ function clientReceivedPacket2(_response)
 			oGame.dices[r[$ "number"]][$ "saved"] = r[$ "saved"];
 			break;
 		case Network.NextTurn:
+			oGame.usedGatling = false;
 			oGame.suzyRolled = false;
 			oGame.currentTurn = r[$ "turn"];
 			oGame.firstRoll = true;
@@ -141,7 +142,9 @@ function clientReceivedPacket2(_response)
 						}
 						break;
 					case Characters.PedroRamirez:
+						//show_message_async($"turnhp:{oGame.turnHP}/current:{global.players[myposition][$ "life"]}");
 						if(global.players[myposition][$ "lastdamage"] == DamageType.Normal and global.players[myposition][$ "life"] < oGame.turnHP){
+							show_message_async("pedro skill");
 							oGame.waiting = true;
 							oGame.waitingPlayer = global.players[myposition][$ "port"];
 							oGame.ability = Characters.PedroRamirez;
