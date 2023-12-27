@@ -20,6 +20,12 @@ for (var i = 0; i < array_length(result); ++i) {
 	        dices[i][$ "saved"] = true;
 			sendMessage({ command : Network.SaveDice, number : i, saved : dices[i][$ "saved"] });
 	        break;
+		case Faces.Hit1:
+		case Faces.Hit2:
+			if(global.players[myposition][$ "character"] == Characters.SuzyLafayette){
+				suzyRolled = true;
+			}
+			break;
 	    default:
 	        // code here
 	        break;

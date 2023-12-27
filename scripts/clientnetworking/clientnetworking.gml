@@ -100,6 +100,7 @@ function clientReceivedPacket2(_response)
 			oGame.dices[r[$ "number"]][$ "saved"] = r[$ "saved"];
 			break;
 		case Network.NextTurn:
+			oGame.suzyRolled = false;
 			oGame.currentTurn = r[$ "turn"];
 			oGame.firstRoll = true;
 			oGame.actions = 0;

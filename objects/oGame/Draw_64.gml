@@ -85,6 +85,10 @@ if (canInteract and !rolling and global.players[currentTurn].port == global.play
 	}
 }
 if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and (global.players[currentTurn][$ "rolls"] == 0 or _totalSaved == array_length(dices)) and global.players[currentTurn][$ "bombs"] < 3 and !actions and !resolvePhase and button(GW/2 - 242, GH/2 - 150, $"Finalizar turno!", 1)) {
+	if(global.players[myposition][$ "character"] == Characters.SuzyLafayette and !suzyRolled){
+		sendMessage({ command : Network.UsedSkill });
+		sendMessage({ command : Network.Heal, port : global.players[myposition][$ "port"] });
+	}
 	gatling = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
 		if(dices[i][$ "face"] == Faces.Gatling){
