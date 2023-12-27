@@ -194,48 +194,18 @@ if (canInteract and resolvePhase) {
 	switch (dices[resolvingDice].face) {
 	    case Faces.Hit1:
 			can_hit(1);
-	        var _x = positions[canhit[0]][0];
-			var _xx = global.playerspos[canhit[0]][$ "endx"];
-			var _y = positions[canhit[0]][1];
-			var _yy = global.playerspos[canhit[0]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
-			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"] });
-				resolvingDice++;
-				break;
-			}
-	        _x = positions[canhit[1]][0];
-			_xx = global.playerspos[canhit[1]][$ "endx"];
-			_y = positions[canhit[1]][1];
-			_yy = global.playerspos[canhit[1]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
-			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"] });
-				resolvingDice++;
-				break;
+	        if(select_hit()){break;}
+			if(global.players[myposition][$ "character"] == Characters.RoseDoolan){
+				can_hit(2);
+	        	if(select_hit()){break;}
 			}
 	        break;
 	    case Faces.Hit2:
 			can_hit(2);
-	        _x = positions[canhit[0]][0];
-			_xx = global.playerspos[canhit[0]][$ "endx"];
-			_y = positions[canhit[0]][1];
-			_yy = global.playerspos[canhit[0]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
-			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"] });
-				resolvingDice++;
-				break;
-			}
-	        _x = positions[canhit[1]][0];
-			_xx = global.playerspos[canhit[1]][$ "endx"];
-			_y = positions[canhit[1]][1];
-			_yy = global.playerspos[canhit[1]][$ "endy"];
-			draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
-			if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-			    sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"] });
-				resolvingDice++;
-				break;
+	        if(select_hit()){break;}
+			if(global.players[myposition][$ "character"] == Characters.RoseDoolan){
+				can_hit(3);
+	        	if(select_hit()){break;}
 			}
 	        break;
 		case Faces.Bomb:
