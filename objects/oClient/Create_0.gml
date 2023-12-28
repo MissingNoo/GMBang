@@ -1,6 +1,6 @@
 randomize();
-global.serverip = "127.0.0.1";
-//global.serverip = "192.168.0.107";
+//global.serverip = "127.0.0.1";
+global.serverip = "140.238.187.191";
 global.port = 8888;
 global.username = $"test {irandom(999)}";
 global.roomname = "";

@@ -1,8 +1,8 @@
 if (DEBUG) {
-draw_text(10,10, debuginfo);
+	draw_text(10,10, debuginfo);
 }
-var _tx = 30;
-var _ty = 30;
+var _tx = 10;
+var _ty = 10;
 var _text = "Nome: ";
 var _w = string_width(_text);
 var _h = string_height(_text);
@@ -13,11 +13,32 @@ _w = string_width(_text);
 _h = string_height(_text);
 _text = global.username + " (clique para mudar)";
 draw_text(_tx, _ty, _text);
-if(DEBUG){
-	draw_rectangle(_tx, _ty, _tx + _w, _ty +_h, true);
-}
+draw_rectangle(_tx, _ty, _tx + _w, _ty +_h, true);
 if(point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),_tx, _ty, _tx + _w, _ty + _h) and device_mouse_check_button_pressed(0, mb_left)){
 	uname = get_string_async("Qual seu nome?","Teste");
+}
+_tx = 10;
+_ty = GH - 30;
+_text = "IP: ";
+_w = string_width(_text);
+_h = string_height(_text);
+draw_text(_tx, _ty, _text);
+_tx += _w;
+_text = global.serverip;
+_w = string_width(_text);
+_h = string_height(_text);
+draw_text(_tx, _ty, _text);
+draw_rectangle(_tx, _ty, _tx + _w, _ty +_h, true);
+if(point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),_tx, _ty, _tx + _w, _ty + _h) and device_mouse_check_button_pressed(0, mb_left)){
+	uip = get_string_async("IP","140.238.187.191");
+}
+_tx += _w;
+_text = $":{global.port}";
+_w = string_width(_text);
+draw_text(_tx, _ty, _text);
+draw_rectangle(_tx, _ty, _tx + _w, _ty +_h, true);
+if(point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),_tx, _ty, _tx + _w, _ty + _h) and device_mouse_check_button_pressed(0, mb_left)){
+	uport = get_string_async("Porta","8888");
 }
 if (!joinedRoom) {
 	var _x = GW/2;

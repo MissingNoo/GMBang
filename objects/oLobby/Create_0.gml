@@ -6,3 +6,6 @@ chatmessages = [];
 clicked = false;
 password = "";
 keyboard_string = "";
+uname = "";
+uip = "";
+uport = "";
