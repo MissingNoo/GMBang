@@ -53,7 +53,7 @@ else {
 	}
 	var _yoffset = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
-	    if (dices[i].saved) {
+	    if (dices[i][$ "saved"]) {
 			var _w = sprite_get_width(sDice) / 2 + 6;
 		    draw_sprite_ext(sDice, dices[i][$ "face"], dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 			_yoffset += 53;

@@ -43,7 +43,7 @@ beer = function(){
 		}
 		else{
 			global.players[i][$ "customColor"] = undefined;
-		}		
+		}
 		//draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
 		if (device_mouse_check_button_pressed(0, mb_left) and _mouseOnTop) {
 			sendMessage({ command : Network.Heal, port : global.players[i][$ "port"] });
@@ -119,7 +119,6 @@ function can_hit(distance){
 				else{
 					canhit[1] = lastplayer -1;
 				}
-				
 				break;
 		}
 	}
@@ -144,7 +143,14 @@ select_hit = function(dmg){
 	var _xx = global.playerspos[canhit[0]][$ "endx"];
 	var _y = positions[canhit[0]][1];
 	var _yy = global.playerspos[canhit[0]][$ "endy"];
-	draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
+	//draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_red, true);
+	var _mouseOnTop = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy);
+	if(_mouseOnTop){
+		global.players[canhit[0]][$ "customColor"] = c_red;
+	}
+	else{
+		global.players[canhit[0]][$ "customColor"] = undefined;
+	}
 	if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
 		sendMessage({ command : Network.Damage, port : global.players[canhit[0]][$ "port"], damage : dmg });
 		resolvingDice++;
@@ -154,7 +160,14 @@ select_hit = function(dmg){
 	_xx = global.playerspos[canhit[1]][$ "endx"];
 	_y = positions[canhit[1]][1];
 	_yy = global.playerspos[canhit[1]][$ "endy"];
-	draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
+	//draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_blue, true);
+	_mouseOnTop = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy);
+	if(_mouseOnTop){
+		global.players[canhit[1]][$ "customColor"] = c_red;
+	}
+	else{
+		global.players[canhit[1]][$ "customColor"] = undefined;
+	}
 	if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
 		sendMessage({ command : Network.Damage, port : global.players[canhit[1]][$ "port"], damage : dmg });
 		resolvingDice++;
