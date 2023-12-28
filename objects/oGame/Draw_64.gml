@@ -154,8 +154,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	if(point_in_rectangle(MX, MY, _x, _y, _x + 64, _y + 64)){
 		characterInfo = i;
 	}
-	
-	if(global.players[currentTurn][$ "mx"] != undefined){
+	/* if(global.players[currentTurn][$ "mx"] != undefined){
 		var _px = global.players[currentTurn][$ "mx"];
 		var _py = global.players[currentTurn][$ "my"];
 		if ((!rolling and resolvingDice != -1 and resolvingDice < array_length(dices)) 
@@ -163,7 +162,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 			and point_in_rectangle(_px, _py, positions[i][0], positions[i][1], global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"])) {
 				_color = c_red;
 		}
-	}
+	} */
 	draw_sprite_ext(sGuiMessage, 2, _x - 10, _y - 9, 2.58, 2, 0, _color, 1);
 	if(_text == "Sheriff"){
 		draw_sprite_ext(sSheriff, 0, _x, _y, 0.75, 0.75, 0, c_white, 1);
