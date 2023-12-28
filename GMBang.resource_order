@@ -13,9 +13,9 @@
     {"name":"Shaders","order":6,"path":"folders/Shaders.yy",},
     {"name":"Sounds","order":3,"path":"folders/Sounds.yy",},
     {"name":"Sprites","order":1,"path":"folders/Sprites.yy",},
+    {"name":"GUI","order":6,"path":"folders/Sprites/GUI.yy",},
     {"name":"Tile Sets","order":2,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":8,"path":"folders/Timelines.yy",},
-    {"name":"GUI","order":6,"path":"folders/Sprites/GUI.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"oGame","order":2,"path":"objects/oGame/oGame.yy",},
@@ -26,6 +26,7 @@
     {"name":"rGame","order":1,"path":"rooms/rGame/rGame.yy",},
     {"name":"sGuiButtonIcon","order":5,"path":"sprites/sGuiButtonIcon/sGuiButtonIcon.yy",},
     {"name":"sArrow","order":2,"path":"sprites/sArrow/sArrow.yy",},
+    {"name":"sRevolver","order":7,"path":"sprites/sRevolver/sRevolver.yy",},
     {"name":"sGuiButtonRim","order":1,"path":"sprites/sGuiButtonRim/sGuiButtonRim.yy",},
     {"name":"sGuiButtonConfirm","order":2,"path":"sprites/sGuiButtonConfirm/sGuiButtonConfirm.yy",},
     {"name":"sGuiButtonCancel","order":4,"path":"sprites/sGuiButtonCancel/sGuiButtonCancel.yy",},

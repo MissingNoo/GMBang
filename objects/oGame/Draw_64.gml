@@ -48,14 +48,14 @@ if (firstRoll) {
 else {
 	for (var i = 0; i < array_length(dices); ++i) {
 		if (!dices[i][$ "saved"]) {
-		    draw_sprite_ext(sDice, dices[i][$ "face"], dices[i][$ "x"], dices[i][$ "y"], 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
+		    draw_sprite_ext(sDice, dices[i][$ "face"], dices[i][$ "x"], dices[i][$ "y"], 1, 1, 0, (resolvingDice != -1 and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 		}
 	}
 	var _yoffset = 0;
 	for (var i = 0; i < array_length(dices); ++i) {
 	    if (dices[i][$ "saved"]) {
 			var _w = sprite_get_width(sDice) / 2 + 6;
-		    draw_sprite_ext(sDice, dices[i][$ "face"], dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvePhase and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
+		    draw_sprite_ext(sDice, dices[i][$ "face"], dropArea[0] + _w, dropArea[1] + _w + _yoffset, 1, 1, 0, (resolvingDice != -1 and resolvingDice == i) ? c_green : c_white, pushingDice == i ? .5 : 1);
 			_yoffset += 53;
 		}
 	}
@@ -112,20 +112,6 @@ if (canInteract and !rolling and global.players[currentTurn].port == global.play
 }
 draw_sprite_ext(sArrow, 0, dropArea[0], dropArea[3] + 10, 1, 1, 0, c_white, 1);
 draw_text_transformed(dropArea[0] + debuginfo.a, dropArea[3] + debuginfo.b, $": {arrows}", debuginfo.c, debuginfo.c, 0);
-for (var i = 0; i < array_length(global.players); ++i) {
-    if (global.players[i][$ "mx"] != undefined) {
-		if (global.players[i][$ "mouseSprite"] != -1) {
-		    draw_sprite_ext(sDice, global.players[i][$ "mouseSprite"], global.players[i][$ "mx"], global.players[i][$ "my"], 1, 1, 0, c_white, 0.5);
-		}
-		else{
-			draw_circle(global.players[i][$ "mx"], global.players[i][$ "my"], 3, false);
-		}
-	    
-		draw_set_halign(fa_center);
-		draw_text_transformed(global.players[i][$ "mx"], global.players[i][$ "my"] - 10, global.players[i][$ "username"], 0.5, 0.5, 0);
-		draw_set_halign(fa_left);
-	}
-}
 #region Draw Players
 //for (var i = 0; i < array_length(positions); ++i) {
 //	if (positions[i][0] == 0) {
@@ -168,6 +154,16 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	if(point_in_rectangle(MX, MY, _x, _y, _x + 64, _y + 64)){
 		characterInfo = i;
 	}
+	
+	if(global.players[currentTurn][$ "mx"] != undefined){
+		var _px = global.players[currentTurn][$ "mx"];
+		var _py = global.players[currentTurn][$ "my"];
+		if ((!rolling and resolvingDice != -1 and resolvingDice < array_length(dices)) 
+			and (dices[resolvingDice][$ "face"] == Faces.Hit1 or dices[resolvingDice][$ "face"] == Faces.Hit2)
+			and point_in_rectangle(_px, _py, positions[i][0], positions[i][1], global.playerspos[i][$ "endx"], global.playerspos[i][$ "endy"])) {
+				_color = c_red;
+		}
+	}
 	draw_sprite_ext(sGuiMessage, 2, _x - 10, _y - 9, 2.58, 2, 0, _color, 1);
 	if(_text == "Sheriff"){
 		draw_sprite_ext(sSheriff, 0, _x, _y, 0.75, 0.75, 0, c_white, 1);
@@ -196,9 +192,29 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	global.playerspos[i][$ "endx"] = _x + 2;
 	global.playerspos[i][$ "endy"] = _y + 2;
 	//}
+	#region dice
+	if ((!rolling and resolvingDice != -1 and resolvingDice < array_length(dices)) and (dices[resolvingDice][$ "face"] == Faces.Hit1 or dices[resolvingDice][$ "face"] == Faces.Hit2) and global.players[currentTurn][$ "mx"] != undefined) {
+		var _xx = positions[currentTurn][0];
+		var _yy = positions[currentTurn][1];
+		draw_sprite_ext(sRevolver, 0, _xx + 32, _yy + 32, 2, 2, point_direction(_xx, _yy, global.players[currentTurn][$ "mx"], global.players[currentTurn][$ "my"]), c_white, 1);
+	}
+	#endregion
 }
 #endregion
-
+for (var i = 0; i < array_length(global.players); ++i) {
+    if (i != myposition and global.players[i][$ "mx"] != undefined) {
+		if (global.players[i][$ "mouseSprite"] != -1) {
+		    draw_sprite_ext(sDice, global.players[i][$ "mouseSprite"], global.players[i][$ "mx"], global.players[i][$ "my"], 1, 1, 0, c_white, 0.5);
+		}
+		else{
+			draw_circle(global.players[i][$ "mx"], global.players[i][$ "my"], 3, false);
+		}
+	    
+		draw_set_halign(fa_center);
+		draw_text_transformed(global.players[i][$ "mx"], global.players[i][$ "my"] - 10, global.players[i][$ "username"], 0.5, 0.5, 0);
+		draw_set_halign(fa_left);
+	}
+}
 #region Resolve Phase
 if (canInteract and resolvePhase) {
 	var _noaction = true;
@@ -210,6 +226,7 @@ if (canInteract and resolvePhase) {
 	if (_noaction) {
 		sendMessage({ command : Network.NextTurn });
 	}
+	var lastdice = resolvingDice;
 	switch (dices[resolvingDice].face) {
 	    case Faces.Hit1:
 	    case Faces.Hit2:
@@ -292,6 +309,9 @@ if (canInteract and resolvePhase) {
 	    default:
 	        // code here
 	        break;
+	}
+	if(lastdice != resolvingDice){
+		sendMessage({ command : Network.CurrentDice, id : resolvingDice });
 	}
 	if (resolvingDice == array_length(dices)) {
 		resolvePhase = false;

@@ -22,7 +22,8 @@ enum Network {
 	Waiting,
 	ChangeBomb,
 	ChangeDice,
-	UsedSkill
+	UsedSkill,
+	CurrentDice
 }
 function clientReceivedPacket2(_response)
 {
@@ -34,6 +35,9 @@ function clientReceivedPacket2(_response)
 		//	global.socket = r[$ "socket"];
 		//	//show_debug_message(r[$"socket"]);
 	    //    break;
+		case Network.CurrentDice:
+			oGame.resolvingDice = r[$ "id"];
+			break;
 		case Network.Waiting:
 			oGame.waiting = r[$ "waiting"];
 			if(r[$ "waiting"]){
@@ -105,7 +109,7 @@ function clientReceivedPacket2(_response)
 			oGame.currentTurn = r[$ "turn"];
 			oGame.firstRoll = true;
 			oGame.actions = 0;
-			oGame.resolvingDice = 0;
+			oGame.resolvingDice = -1;
 			oGame.resolvePhase = false;
 			for (var i = 0; i < array_length(oGame.dices); ++i) {
 			    oGame.dices[i][$ "saved"] = false;
