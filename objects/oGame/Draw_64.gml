@@ -216,6 +216,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 }
 #region Resolve Phase
 if (canInteract and resolvePhase) {
+	if (global.players[myposition][$ "life"] <= 0) {sendMessage({ command : Network.NextTurn });}
 	var _noaction = true;
 	for (var i = 0; i < array_length(dices); i += 1) {
 		if (dices[i][$ "face"] == Faces.Beer or dices[i][$ "face"] == Faces.Hit1 or dices[i][$ "face"] == Faces.Hit2 or (dices[i][$ "face"] == Faces.Gatling and global.players[myposition][$ "character"] == Characters.KitCarlson)){
@@ -367,8 +368,8 @@ switch(ability){
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});
 		}
 		break;
-	case Characters.CalamityJanet:
-		if(resolvingDice == array_length(dices) or currentTurn != myposition){break;}
+	case Characters.CalamityJanet: // not showing button
+		if(resolvingDice < 0 or resolvingDice == array_length(dices) or currentTurn != myposition){break;}
 		var _face = dices[resolvingDice][$ "face"];
 		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !firstRoll and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
 			switch (_face){

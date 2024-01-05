@@ -51,6 +51,7 @@
     {"id":{"name":"aCurve","path":"animcurves/aCurve/aCurve.yy",},},
     {"id":{"name":"sRevolver","path":"sprites/sRevolver/sRevolver.yy",},},
     {"id":{"name":"sGuiButtonRim","path":"sprites/sGuiButtonRim/sGuiButtonRim.yy",},},
+    {"id":{"name":"oShoot","path":"objects/oShoot/oShoot.yy",},},
     {"id":{"name":"clientnetworking","path":"scripts/clientnetworking/clientnetworking.yy",},},
     {"id":{"name":"sGuiButtonConfirm","path":"sprites/sGuiButtonConfirm/sGuiButtonConfirm.yy",},},
     {"id":{"name":"oClient","path":"objects/oClient/oClient.yy",},},

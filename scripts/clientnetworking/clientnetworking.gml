@@ -117,12 +117,32 @@ function clientReceivedPacket2(_response)
 			}
 			break;
 		case Network.UpdatePlayers:
+			var hps = [];
 			if(instance_exists(oGame))
 			{
 			    oGame.turnHP = global.players[oGame.myposition][$ "life"];
+				for (var i = 0; i < array_length(global.players); i += 1) {
+					hps[i][0] = global.players[i][$ "life"];
+				}
 			}
 			global.players = json_parse(r[$ "players"]);
 			if(instance_exists(oGame)){
+				for (var i = 0; i < array_length(global.players); i += 1) {
+					if (global.players[i][$ "life"] < hps[i][0]){
+						var _x = oGame.positions[oGame.currentTurn][0] + 32;
+						var _y = oGame.positions[oGame.currentTurn][1] + 32;
+						var _xx = oGame.positions[i][0] + 32;
+						var _yy = oGame.positions[i][1] + 32;
+						instance_create_depth(_x, _y, oGame.depth - 1, oShoot, {
+							sprite_index : sBullet,
+							direction : point_direction(_x, _y, _xx, _yy),
+							image_angle : point_direction(_x, _y, _xx, _yy) - 90,
+							speed : 8,
+							ex : _xx,
+							ey : _yy
+						})
+					}
+				}
 			    if (r[$ "arrows"] != undefined){
 				    oGame.arrows = r[$ "arrows"];
 			    }
