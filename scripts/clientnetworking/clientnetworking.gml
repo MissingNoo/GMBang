@@ -139,7 +139,9 @@ function clientReceivedPacket2(_response)
 							image_angle : point_direction(_x, _y, _xx, _yy) - 90,
 							speed : 8,
 							ex : _xx,
-							ey : _yy
+							ey : _yy,
+							image_xscale : 2,
+							image_yscale : 2,
 						})
 					}
 				}

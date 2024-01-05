@@ -371,7 +371,7 @@ switch(ability){
 	case Characters.CalamityJanet: // not showing button
 		if(resolvingDice < 0 or resolvingDice == array_length(dices) or currentTurn != myposition){break;}
 		var _face = dices[resolvingDice][$ "face"];
-		if((_face == Faces.Hit1 or _face == Faces.Hit2) and !firstRoll and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
+		if((_face == Faces.Hit1 or _face == Faces.Hit2) and resolvePhase and !rolling and button(GW/2, GH/2, "Trocar dado", 1)){
 			switch (_face){
 				case Faces.Hit1:
 					_face = Faces.Hit2;
