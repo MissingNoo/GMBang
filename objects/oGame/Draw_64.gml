@@ -195,7 +195,8 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	if ((!rolling and resolvingDice != -1 and resolvingDice < array_length(dices)) and (dices[resolvingDice][$ "face"] == Faces.Hit1 or dices[resolvingDice][$ "face"] == Faces.Hit2) and global.players[currentTurn][$ "mx"] != undefined) {
 		var _xx = positions[currentTurn][0];
 		var _yy = positions[currentTurn][1];
-		draw_sprite_ext(sRevolver, 0, _xx + 32, _yy + 32, 2, 2, point_direction(_xx, _yy, global.players[currentTurn][$ "mx"], global.players[currentTurn][$ "my"]), c_white, 1);
+		var _xscale = MX >= positions[currentTurn][1] ? 2 : -2;
+		draw_sprite_ext(sRevolver, 0, _xx + 32, _yy + 32, _xscale, 2, point_direction(_xx, _yy, global.players[currentTurn][$ "mx"], global.players[currentTurn][$ "my"]), c_white, 1);
 	}
 	#endregion
 }

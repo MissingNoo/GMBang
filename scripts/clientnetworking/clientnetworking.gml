@@ -137,7 +137,7 @@ function clientReceivedPacket2(_response)
 							sprite_index : sBullet,
 							direction : point_direction(_x, _y, _xx, _yy),
 							image_angle : point_direction(_x, _y, _xx, _yy) - 90,
-							speed : 8,
+							speed : 15,
 							ex : _xx,
 							ey : _yy,
 							image_xscale : 2,
