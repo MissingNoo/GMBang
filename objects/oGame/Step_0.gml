@@ -1,3 +1,13 @@
+if(keyboard_check_pressed(vk_home)){room_goto(room_first);}
+for (var i = 0; i < array_length(global.players); ++i) {
+	if (global.players[i][$ "job"] == Roles.Sheriff and setturn){
+		setturn = false;
+		currentTurn = i;
+	}
+	if (global.players[i].port == global.playerid) {
+		myposition = i;
+	}
+}
 if(waitingPlayer != -1){
 	var _show = true;
 	if(global.players[oGame.myposition][$ "port"] == oGame.waitingPlayer){
@@ -58,6 +68,7 @@ if (keyboard_check_pressed(vk_enter)) {
 	}
 }
 if (rolling) {
+	global.startturn = -1;	
     for (var i = 0; i < array_length(dices); ++i) {
 		if (dices[i][$ "saved"]) {
 		    continue;

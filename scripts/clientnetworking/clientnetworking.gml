@@ -88,6 +88,9 @@ function clientReceivedPacket2(_response)
 		case Network.StartGame:
 			global.players = oLobby.players;
 			global.playerid = r[$ "socket"];
+			if (r[$ "turn"] != undefined){
+				global.startturn = r[$ "turn"];
+			}
 			room_goto(rGame);
 			break;
 			
@@ -117,27 +120,32 @@ function clientReceivedPacket2(_response)
 			}
 			break;
 		case Network.UpdatePlayers:
-			var hps = [];
+			var hps = array_create(array_length(global.players), 0);
 			if(instance_exists(oGame))
 			{
+				if (r[$ "turn"] != undefined){
+					oGame.currentTurn = r[$ "turn"];
+				}
 			    oGame.turnHP = global.players[oGame.myposition][$ "life"];
 				for (var i = 0; i < array_length(global.players); i += 1) {
 					hps[i][0] = global.players[i][$ "life"];
 				}
 			}
 			global.players = json_parse(r[$ "players"]);
-			if(instance_exists(oGame)){
+			if(instance_exists(oGame) and array_length(global.players) == array_length(hps)){
 				for (var i = 0; i < array_length(global.players); i += 1) {
 					var _xx = oGame.positions[i][0] + 32;
 					var _yy = oGame.positions[i][1] + 32;
-					if (global.players[i][$ "life"] < hps[i][0]){
+					var _indianDamage = r[$ "indian"];
+					if(is_undefined(r[$ "indian"])){_indianDamage = false;}
+					if (global.players[i][$ "life"] < hps[i][0] and !_indianDamage){
 						var _x = oGame.positions[oGame.currentTurn][0] + 32;
 						var _y = oGame.positions[oGame.currentTurn][1] + 32;
 						instance_create_depth(_x, _y, oGame.depth - 1, oEffect, {
 							sprite_index : sBullet,
 							direction : point_direction(_x, _y, _xx, _yy),
 							image_angle : point_direction(_x, _y, _xx, _yy) - 90,
-							speed : 15,
+							speed : 16,
 							ex : _xx,
 							ey : _yy,
 							image_xscale : 2,

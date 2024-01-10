@@ -66,7 +66,10 @@ if (pushingDice != -1) {
 if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "bombs"] >= 3 and button(GW/2 - 242, GH/2 - 150, $"Pular turno!", 1)) {
     sendMessage({ command : Network.NextTurn });
 }
-if (canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "rolls"] > 0 and _totalSaved != array_length(dices) and global.players[currentTurn][$ "bombs"] < 3 and button(GW/2 - 242, GH/2 - 150, $"Rolar ({global.players[currentTurn][$ "rolls"]})", 1) ) {
+if (global.players[myposition][$ "life"] <= 0 and !rolling and global.players[currentTurn].port == global.playerid) {
+	sendMessage({ command : Network.NextTurn });
+}
+if (global.players[myposition][$ "life"] > 0 and canInteract and !rolling and global.players[currentTurn].port == global.playerid and global.players[currentTurn][$ "rolls"] > 0 and _totalSaved != array_length(dices) and global.players[currentTurn][$ "bombs"] < 3 and button(GW/2 - 242, GH/2 - 150, $"Rolar ({global.players[currentTurn][$ "rolls"]})", 1) ) {
 	if (!rolling) {
 		switch(global.players[myposition][$ "character"]){
 			case Characters.SidKetchum:
@@ -228,88 +231,90 @@ if (canInteract and resolvePhase) {
 		sendMessage({ command : Network.NextTurn });
 	}
 	var lastdice = resolvingDice;
-	switch (dices[resolvingDice].face) {
-	    case Faces.Hit1:
-	    case Faces.Hit2:
-			var _distance = 0;
-			if(dices[resolvingDice][$ "face"] == Faces.Hit1){
-				_distance = 1;
-			}
-			if(dices[resolvingDice][$ "face"] == Faces.Hit2){
-				_distance = 2;
-			}
-			can_hit(_distance);
-	        if(select_hit(dices[resolvingDice][$ "damage"])){break;}
-			switch(global.players[myposition][$ "character"]){
-				case Characters.RoseDoolan:
-					can_hit(_distance + 1);
-	        		if(select_hit(dices[resolvingDice][$ "damage"])){break;}
-					break;
-				case Characters.SlabtheKiller:
-					if(global.players[myposition][$ "canUseSkill"] and have_beer() and button(GW/2, GH/2, "Dobrar Dano", 1)){
-						for (var i = 0; i < array_length(dices); i += 1) {
-							if(dices[i][$ "face"] == Faces.Beer and dices[i][$ "used"] == undefined){
-								dices[i][$ "used"] = true;
-								break;
-							}							
-						}
-						dices[resolvingDice][$ "damage"] = 2;
-						global.players[myposition][$ "canUseSkill"] = false;
-						sendMessage({ command : Network.UsedSkill });
-					}
-					break;
-			}
-	        break;
-		case Faces.Bomb:
-			resolvingDice++;
-			break;
-		case Faces.Gatling:
-			if(global.players[myposition][$ "character"] == Characters.KitCarlson and gatling > 0){
-				var _someoneHasArrows = false;
-				for (var i = 0; i < array_length(global.players); ++i) {
-					if(global.players[i][$ "arrows"] > 0){
-						_someoneHasArrows = true;
-					}
+	if(resolvingDice >= 0 and resolvingDice < array_length(dices)){
+		switch (dices[resolvingDice].face) {
+			case Faces.Hit1:
+			case Faces.Hit2:
+				var _distance = 0;
+				if(dices[resolvingDice][$ "face"] == Faces.Hit1){
+					_distance = 1;
 				}
-				if(!_someoneHasArrows){resolvingDice++;}
-				for (var i = 0; i < array_length(global.players); ++i) {
-					if(global.players[i][$ "life"] <= 0 or global.players[i][$ "arrows"] <= 0){
-						continue;
-					}
-					_x = positions[i][0];
-					_xx = global.playerspos[i][$ "endx"];
-					_y = positions[i][1];
-					_yy = global.playerspos[i][$ "endy"];
-					draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
-					if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
-						var _amount = -1;
-						if(gatling >= 3){_amount = -3};
-						gatling = 0;
-						sendMessage({ command : Network.AddArrow, amount : _amount, port : global.players[i][$ "port"] });
-						resolvingDice++;
+				if(dices[resolvingDice][$ "face"] == Faces.Hit2){
+					_distance = 2;
+				}
+				can_hit(_distance);
+				if(select_hit(dices[resolvingDice][$ "damage"])){break;}
+				switch(global.players[myposition][$ "character"]){
+					case Characters.RoseDoolan:
+						can_hit(_distance + 1);
+						if(select_hit(dices[resolvingDice][$ "damage"])){break;}
 						break;
+					case Characters.SlabtheKiller:
+						if(global.players[myposition][$ "canUseSkill"] and have_beer() and button(GW/2, GH/2, "Dobrar Dano", 1)){
+							for (var i = 0; i < array_length(dices); i += 1) {
+								if(dices[i][$ "face"] == Faces.Beer and dices[i][$ "used"] == undefined){
+									dices[i][$ "used"] = true;
+									break;
+								}							
+							}
+							dices[resolvingDice][$ "damage"] = 2;
+							global.players[myposition][$ "canUseSkill"] = false;
+							sendMessage({ command : Network.UsedSkill });
+						}
+						break;
+				}
+				break;
+			case Faces.Bomb:
+				resolvingDice++;
+				break;
+			case Faces.Gatling:
+				if(global.players[myposition][$ "character"] == Characters.KitCarlson and gatling > 0){
+					var _someoneHasArrows = false;
+					for (var i = 0; i < array_length(global.players); ++i) {
+						if(global.players[i][$ "arrows"] > 0){
+							_someoneHasArrows = true;
+						}
+					}
+					if(!_someoneHasArrows){resolvingDice++;}
+					for (var i = 0; i < array_length(global.players); ++i) {
+						if(global.players[i][$ "life"] <= 0 or global.players[i][$ "arrows"] <= 0){
+							continue;
+						}
+						_x = positions[i][0];
+						_xx = global.playerspos[i][$ "endx"];
+						_y = positions[i][1];
+						_yy = global.playerspos[i][$ "endy"];
+						draw_rectangle_color(_x - 2, _y - 2, _xx, _yy, c_green , c_green , c_green , c_green, true);
+						if (device_mouse_check_button_pressed(0, mb_left) and point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy)) {
+							var _amount = -1;
+							if(gatling >= 3){_amount = -3};
+							gatling = 0;
+							sendMessage({ command : Network.AddArrow, amount : _amount, port : global.players[i][$ "port"] });
+							resolvingDice++;
+							break;
+						}
 					}
 				}
-			}
-			else{
-				resolvingDice++;
-			}
-			break;
-		case Faces.Arrow:
-			resolvingDice++;
-			break;
-		case Faces.Beer:
-			if(global.players[myposition][$ "canUseSkill"] and global.players[myposition][$ "character"] == Characters.SlabtheKiller){
-				if(button(GW/2, GH/2, "Nao usar cerveja", 1)){
+				else{
 					resolvingDice++;
 				}
-			}
-			if(dices[resolvingDice][$ "used"] != undefined){ resolvingDice++; }
-			beer();
-			break;
-	    default:
-	        // code here
-	        break;
+				break;
+			case Faces.Arrow:
+				resolvingDice++;
+				break;
+			case Faces.Beer:
+				if(global.players[myposition][$ "canUseSkill"] and global.players[myposition][$ "character"] == Characters.SlabtheKiller){
+					if(button(GW/2, GH/2, "Nao usar cerveja", 1)){
+						resolvingDice++;
+					}
+				}
+				if(dices[resolvingDice][$ "used"] != undefined){ resolvingDice++; }
+				beer();
+				break;
+			default:
+				// code here
+				break;
+		}
 	}
 	if(lastdice != resolvingDice){
 		sendMessage({ command : Network.CurrentDice, id : resolvingDice });

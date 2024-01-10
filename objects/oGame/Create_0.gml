@@ -85,7 +85,7 @@ function can_hit(distance){
 				if(canhit[0] == lastplayer + 1){
 					canhit[0] = firstplayer;
 				}
-				else{
+				if(canhit[0] == lastplayer + 2){
 					canhit[0] = firstplayer + 1;
 				}
 				break;
@@ -116,7 +116,7 @@ function can_hit(distance){
 				if(canhit[1] == -1){
 					canhit[1] = lastplayer;
 				}
-				else{
+				if(canhit[1] == -2){
 					canhit[1] = lastplayer -1;
 				}
 				break;
@@ -203,6 +203,7 @@ result = [];
 mx = 0;
 my = 0;
 currentTurn = 0;
+setturn = true;
 actions = 0;
 resolvingDice = 0;
 resolvePhase = false;
