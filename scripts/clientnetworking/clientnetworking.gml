@@ -128,12 +128,12 @@ function clientReceivedPacket2(_response)
 			global.players = json_parse(r[$ "players"]);
 			if(instance_exists(oGame)){
 				for (var i = 0; i < array_length(global.players); i += 1) {
+					var _xx = oGame.positions[i][0] + 32;
+					var _yy = oGame.positions[i][1] + 32;
 					if (global.players[i][$ "life"] < hps[i][0]){
 						var _x = oGame.positions[oGame.currentTurn][0] + 32;
 						var _y = oGame.positions[oGame.currentTurn][1] + 32;
-						var _xx = oGame.positions[i][0] + 32;
-						var _yy = oGame.positions[i][1] + 32;
-						instance_create_depth(_x, _y, oGame.depth - 1, oShoot, {
+						instance_create_depth(_x, _y, oGame.depth - 1, oEffect, {
 							sprite_index : sBullet,
 							direction : point_direction(_x, _y, _xx, _yy),
 							image_angle : point_direction(_x, _y, _xx, _yy) - 90,
@@ -142,7 +142,17 @@ function clientReceivedPacket2(_response)
 							ey : _yy,
 							image_xscale : 2,
 							image_yscale : 2,
-						})
+							effect : "shoot"
+						});
+					}
+					if (global.players[i][$ "life"] > hps[i][0]){
+						var _x = oGame.positions[i][0] + 32;
+						var _y = oGame.positions[i][1] + 32;
+						instance_create_depth(_x, _y, oGame.depth - 1, oEffect, {
+							sprite_index : sBeerBreak,
+							image_xscale : 1,
+							image_yscale : 1,
+						});
 					}
 				}
 			    if (r[$ "arrows"] != undefined){
@@ -170,7 +180,7 @@ function clientReceivedPacket2(_response)
 					case Characters.PedroRamirez:
 						//show_message_async($"turnhp:{oGame.turnHP}/current:{global.players[myposition][$ "life"]}");
 						if(global.players[myposition][$ "lastdamage"] == DamageType.Normal and global.players[myposition][$ "life"] < oGame.turnHP){
-							show_message_async("pedro skill");
+							//show_message_async("pedro skill");
 							oGame.waiting = true;
 							oGame.waitingPlayer = global.players[myposition][$ "port"];
 							oGame.ability = Characters.PedroRamirez;

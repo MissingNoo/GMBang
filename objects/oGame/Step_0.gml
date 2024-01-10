@@ -129,4 +129,4 @@ if (!firstRoll) {
 	}
 }
 ability = global.players[myposition][$ "character"];
-if(resolvePhase){firstRoll = true;}
+if(resolvePhase){firstRoll = true;}//pedro p2 crash

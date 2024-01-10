@@ -32,6 +32,7 @@
     {"name":"sGuiButtonCancel","order":4,"path":"sprites/sGuiButtonCancel/sGuiButtonCancel.yy",},
     {"name":"sBullet","order":1,"path":"sprites/sBullet/sBullet.yy",},
     {"name":"sBackground","order":4,"path":"sprites/sBackground/sBackground.yy",},
+    {"name":"sBeerBreak","order":8,"path":"sprites/sBeerBreak/sBeerBreak.yy",},
     {"name":"Macros","order":1,"path":"scripts/Macros/Macros.yy",},
     {"name":"Scripts","order":2,"path":"scripts/Scripts/Scripts.yy",},
     {"name":"oLobby","order":1,"path":"objects/oLobby/oLobby.yy",},
