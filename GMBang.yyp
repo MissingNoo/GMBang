@@ -63,6 +63,7 @@
     {"id":{"name":"sDice","path":"sprites/sDice/sDice.yy",},},
     {"id":{"name":"Scripts","path":"scripts/Scripts/Scripts.yy",},},
     {"id":{"name":"oLobby","path":"objects/oLobby/oLobby.yy",},},
+    {"id":{"name":"glass_break","path":"sounds/glass_break/glass_break.yy",},},
     {"id":{"name":"rLobby","path":"rooms/rLobby/rLobby.yy",},},
   ],
   "RoomOrderNodes": [

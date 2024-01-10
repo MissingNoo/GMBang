@@ -150,8 +150,8 @@ function clientReceivedPacket2(_response)
 						var _y = oGame.positions[i][1] + 32;
 						instance_create_depth(_x, _y, oGame.depth - 1, oEffect, {
 							sprite_index : sBeerBreak,
-							image_xscale : 1,
-							image_yscale : 1,
+							image_xscale : 3,
+							image_yscale : 3,
 						});
 					}
 				}

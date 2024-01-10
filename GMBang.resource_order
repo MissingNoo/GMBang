@@ -36,5 +36,6 @@
     {"name":"Macros","order":1,"path":"scripts/Macros/Macros.yy",},
     {"name":"Scripts","order":2,"path":"scripts/Scripts/Scripts.yy",},
     {"name":"oLobby","order":1,"path":"objects/oLobby/oLobby.yy",},
+    {"name":"glass_break","order":1,"path":"sounds/glass_break/glass_break.yy",},
   ],
 }
