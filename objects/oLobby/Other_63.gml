@@ -1,4 +1,5 @@
 var i_d = ds_map_find_value(async_load, "id");
+show_message_async($"{i_d}, {uname}, {uip}, {uport}");
 switch(i_d){
     case uname:
         if (ds_map_find_value(async_load, "status")){
@@ -10,7 +11,8 @@ switch(i_d){
     case uip:
         if (ds_map_find_value(async_load, "status")){
             if (ds_map_find_value(async_load, "result") != ""){
-                global.serverip = ds_map_find_value(async_load, "result");
+                global.serverip = string(ds_map_find_value(async_load, "result"));
+                
             }
         }
         break;

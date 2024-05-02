@@ -1,3 +1,12 @@
+if(variable_instance_exists(self, "arrows")) {
+    for (var i = 0; i < array_length(arrow); i += 1) {
+        arrow[i][1] += 25;
+    }
+}
+if(variable_instance_exists(self, "myturn")) {
+    myturnsize = lerp(myturnsize, 5, 0.1);
+    if(myturnsize == 5) {instance_destroy();}
+}
 switch(sprite_index){
     case sBullet:
         if (variable_instance_exists(self, "ex")){
