@@ -1,3 +1,9 @@
+var _x;
+var _y;
+var _xx;
+var _yy;
+var _cancel;
+var _accept;
 if (DEBUG) {
 	draw_text(10,10, $"{debuginfo} {global.playerid}");
 }
@@ -125,8 +131,8 @@ draw_text_transformed(dropArea[0] + debuginfo.a, dropArea[3] + debuginfo.b, $": 
 var characterInfo = -1;
 for (var i = 0; i < array_length(global.players); ++i) {
 	//if (global.playerspos[i][$ "x"] != undefined) {
-	var _x = positions[i][0];
-	var _y = positions[i][1];
+	_x = positions[i][0];
+	_y = positions[i][1];
 	if (global.playerspos[i][$ "endx"] == undefined) {
 	    global.playerspos[i][$ "endx"] = _x;
 		global.playerspos[i][$ "endy"] = _y;
@@ -196,8 +202,8 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	//}
 	#region dice
 	if ((!rolling and resolvingDice != -1 and resolvingDice < array_length(dices)) and (dices[resolvingDice][$ "face"] == Faces.Hit1 or dices[resolvingDice][$ "face"] == Faces.Hit2) and global.players[currentTurn][$ "mx"] != undefined) {
-		var _xx = positions[currentTurn][0];
-		var _yy = positions[currentTurn][1];
+		_xx = positions[currentTurn][0];
+		_yy = positions[currentTurn][1];
 		var _xscale = MX >= positions[currentTurn][1] ? 2 : -2;
 		draw_sprite_ext(sRevolver, 0, _xx + 32, _yy + 32, _xscale, 2, point_direction(_xx, _yy, global.players[currentTurn][$ "mx"], global.players[currentTurn][$ "my"]), c_white, 1);
 	}
@@ -290,6 +296,7 @@ if (canInteract and resolvePhase) {
 							if(gatling >= 3){_amount = -3};
 							gatling = 0;
 							sendMessage({ command : Network.AddArrow, amount : _amount, port : global.players[i][$ "port"] });
+							instance_create_depth(0, 0, 0, oEffect, {shootarrow : true, target : [oGame.positions[oGame.currentTurn][0], oGame.positions[oGame.currentTurn][1]]});
 							resolvingDice++;
 							break;
 						}
@@ -355,20 +362,22 @@ if (waiting or global.players[myposition][$ "character"] == Characters.CalamityJ
 else{exit;}
 switch(ability){
 	case Characters.BartCassidy:
-		var _cancel = { command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false };
-		var _accept = [{ command : Network.Heal, port : global.players[myposition][$ "port"] }, 
+		_cancel = { command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false };
+		_accept = [{ command : Network.Heal, port : global.players[myposition][$ "port"] }, 
 			{ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] },
 			{ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false}];
 		gui_button_question(_accept, _cancel);
 		break;
 	case Characters.PedroRamirez:
 		if(global.players[myposition][$ "arrows"] > 0){
-			var _cancel = { command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false};
-			var _accept = [
+			_cancel = { command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false};
+			_accept = [
 				{ command : Network.AddArrow, amount : -1, port : global.players[myposition][$ "port"] },
 				{ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false}
 			];
-			gui_button_question(_accept, _cancel);
+			if (gui_button_question(_accept, _cancel)) {
+			    instance_create_depth(0, 0, 0, oEffect, {shootarrow : true, target : [oGame.positions[oGame.currentTurn][0], oGame.positions[oGame.currentTurn][1]]});
+			}
 		}
 		else{
 			sendMessage({ command : Network.Waiting, player : global.players[myposition][$ "port"], waiting : false});

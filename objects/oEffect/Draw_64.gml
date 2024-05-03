@@ -1,3 +1,8 @@
+if(variable_instance_exists(self, "shootarrow")) {
+	image_xscale = 2;
+	image_yscale = 2;
+	sprite_index = sArrowShoot;
+}
 if(variable_instance_exists(self, "arrows")) {
     for (var i = 0; i < array_length(arrow); i += 1) {
         draw_sprite_ext(sArrow, 0, arrow[i][0], arrow[i][1], arrow[i][2], arrow[i][2], 220, c_white, 1);

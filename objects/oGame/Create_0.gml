@@ -1,4 +1,5 @@
 display_set_gui_size(1366, 768);
+var loop = 0;
 suzyRolled = false;
 usedGatling = false;
 canInteract = true;
@@ -8,6 +9,7 @@ ability = -1;
 jobalpha = 1;
 gatling = 0;
 arrows = 0;
+arrowsLastTurn = 0;
 waiting = false;
 waitingPlayer = -1;
 dices = [ { face : 0, x : 520, saved : 0, y : 305 },{ face : 1, x : 555, saved : 0, y : 434 },{ face : 2, x : 661, saved : 0, y : 369 },{ face : 5, x : 804, saved : 0, y : 293 },{ face : 1, x : 823, saved : 0, y : 453 } ];
@@ -19,6 +21,7 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	}
 }
 canhit = [0,0];
+//Feather disable once GM2017
 have_beer = function() {
 	var _have = false;
 	for (var i = 0; i < array_length(dices); i += 1) {
@@ -33,10 +36,10 @@ beer = function(){
 		if(global.players[i][$ "life"] <= 0){
 			continue;
 		}
-		_x = positions[i][0];
-		_xx = global.playerspos[i][$ "endx"];
-		_y = positions[i][1];
-		_yy = global.playerspos[i][$ "endy"];
+		var _x = positions[i][0];
+		var _xx = global.playerspos[i][$ "endx"];
+		var _y = positions[i][1];
+		var _yy = global.playerspos[i][$ "endy"];
 		var _mouseOnTop = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x, _y, _xx, _yy);
 		if(_mouseOnTop){
 			global.players[i][$ "customColor"] = c_orange;
@@ -52,11 +55,12 @@ beer = function(){
 				resolvingDice++;
 			}
 			return true;
-			break;
 		}
 	}
 }
+//Feather disable once GM2017
 function can_hit(distance){
+	var loop = 0;
 	var _alive = 0;
 	for (var i = 0; i < array_length(global.players); ++i) {
 		if (global.players[i].life > 0) {
@@ -91,7 +95,7 @@ function can_hit(distance){
 				break;
 		}
 	}
-	var loop = 0;
+	loop = 0;
 	if(global.players[canhit[0]].life <= 0){
 		do {
 			canhit[0]++;
@@ -122,7 +126,7 @@ function can_hit(distance){
 				break;
 		}
 	}
-	var loop = 0;
+	loop = 0;
 	if(global.players[canhit[1]].life <= 0){
 		do {
 			canhit[1]--;
@@ -138,6 +142,7 @@ function can_hit(distance){
 	}
 	//draw_text(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0) + 15, $"me: {myposition} - {distance} = {myposition - distance} == {canhit[1]}");
 }
+//Feather disable once GM2017
 select_hit = function(dmg){
 	var _x = positions[canhit[0]][0];
 	var _xx = global.playerspos[canhit[0]][$ "endx"];

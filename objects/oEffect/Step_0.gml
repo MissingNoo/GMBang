@@ -20,7 +20,22 @@ switch(sprite_index){
     case sBeerBreak:
         if(!played){
             played = true;
-            audio_play_sound(glass_break, 1, false, 1);
+            audio_play_sound(snd_glass_break, 1, false, 1);
         }
+        break;
+    case sArrowShoot:
+        if(!played){
+			oGame.arrowsLastTurn = oGame.arrows;
+            played = true;
+			x = choose(0, room_width);
+			y = choose(0, room_height);
+			direction = point_direction(x, y, target[0] + 32, target[1] + 32);
+			image_angle = direction;
+			speed = 20;
+        }
+		if (distance_to_point(target[0] + 32, target[1] + 32) < 10) {
+		    audio_play_sound(snd_arrow_hit, 1, false, 1);
+			instance_destroy();
+		}
         break;
 }

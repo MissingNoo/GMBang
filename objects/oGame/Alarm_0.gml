@@ -13,6 +13,7 @@ for (var i = 0; i < array_length(result); ++i) {
 	    case Faces.Arrow:
 			if (!dices[i][$ "saved"]) {
 			    sendMessage({ command : Network.AddArrow, amount : 1, port : global.players[myposition][$ "port"] });
+				instance_create_depth(0, 0, 0, oEffect, {shootarrow : true, target : [oGame.positions[oGame.currentTurn][0], oGame.positions[oGame.currentTurn][1]]});
 			}
 	        break;
 	    case Faces.Bomb:

@@ -1,9 +1,9 @@
 #macro DEBUG os_get_config() == "Debug"
 #macro GW display_get_gui_width()
 #macro GH display_get_gui_height()
-#macro MX device_mouse_x_to_gui(0)
-#macro MY device_mouse_y_to_gui(0)
-#macro mouse_click device_mouse_check_button_pressed(0, mb_left)
+//#macro MX device_mouse_x_to_gui(0)
+//#macro MY device_mouse_y_to_gui(0)
+//#macro mouse_click device_mouse_check_button_pressed(0, mb_left)
 enum Faces {
 	Arrow,
 	Bomb,

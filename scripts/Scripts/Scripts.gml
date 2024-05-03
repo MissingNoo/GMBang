@@ -77,6 +77,7 @@ function gui_button(_x, _y, color, size){
 	return _clicked;
 }
 function gui_button_question(_accept, _cancel){
+	var _return = false;
 	var _button = [GW/2 - 190, GH/2 - 90, 4.50, 2.75];
 	draw_sprite_ext(sGuiMessage, 0, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
 	draw_sprite_ext(sGuiMessage, 1, _button[0], _button[1], _button[2], _button[3], 0, c_white, 1);
@@ -90,6 +91,7 @@ function gui_button_question(_accept, _cancel){
 		else{
 			sendMessage(_accept);
 		}
+		_return = true;
 	}
 
 	if(_cancel != undefined and gui_button(GW/2+100, GH/2 + 65, c_red, 1.50)){
@@ -102,4 +104,5 @@ function gui_button_question(_accept, _cancel){
 			sendMessage(_cancel);
 		}
 	}
+	return _return;
 }

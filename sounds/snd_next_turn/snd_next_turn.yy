@@ -1,6 +1,6 @@
 {
   "$GMSound":"",
-  "%Name":"glass_break",
+  "%Name":"snd_next_turn",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -9,8 +9,8 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":1.361497,
-  "name":"glass_break",
+  "duration":0.437528,
+  "name":"snd_next_turn",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"glass_break.wav",
+  "soundFile":"snd_next_turn.wav",
   "type":0,
   "volume":1.0,
 }

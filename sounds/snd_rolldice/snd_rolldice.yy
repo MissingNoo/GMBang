@@ -1,6 +1,6 @@
 {
   "$GMSound":"",
-  "%Name":"rolldie",
+  "%Name":"snd_rolldice",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,7 +10,7 @@
   "compression":0,
   "conversionMode":0,
   "duration":0.56254,
-  "name":"rolldie",
+  "name":"snd_rolldice",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"rolldie.wav",
+  "soundFile":"snd_rolldice.wav",
   "type":0,
   "volume":1.0,
 }
