@@ -4,8 +4,11 @@ if(variable_instance_exists(self, "arrows")) {
     }
 }
 else if(variable_instance_exists(self, "myturn")) {
-    draw_set_halign(fa_center);
-    draw_text_transformed(GW/2, GH/2, "Seu Turno!", myturnsize, myturnsize, 0);
-    draw_set_halign(fa_left);
+	draw_sprite_ext(sTurn, 0, GW/2, GH/2, myturnsize, myturnsize, 0, c_white, 1);
+    //draw_set_halign(fa_center);
+    //draw_set_valign(fa_middle);
+    //draw_text_transformed(GW/2, GH/2, "Seu Turno!", myturnsize, myturnsize, 0);
+    //draw_set_halign(fa_left);
+    //draw_set_valign(fa_top);
 }
 else {draw_self();}

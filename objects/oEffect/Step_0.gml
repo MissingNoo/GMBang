@@ -4,8 +4,8 @@ if(variable_instance_exists(self, "arrows")) {
     }
 }
 if(variable_instance_exists(self, "myturn")) {
-    myturnsize = lerp(myturnsize, 5, 0.1);
-    if(myturnsize == 5) {instance_destroy();}
+    myturnsize = lerp(myturnsize, 3, 0.1);
+    if(myturnsize == 3) {instance_destroy();}
 }
 switch(sprite_index){
     case sBullet:

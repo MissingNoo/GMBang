@@ -51,6 +51,7 @@ function clientReceivedPacket2(_response)
 			oGame.dices[r[$ "id"]][$ "face"] = r[$ "face"];
 			break;
 		case Network.Roll:
+			audio_play_sound(rolldie, 1, 0, 1);
 			oGame.rolling = true;
 			oGame.alarm[0] = 100;
 			oGame.firstRoll = false;
@@ -111,7 +112,7 @@ function clientReceivedPacket2(_response)
 			oGame.suzyRolled = false;
 			oGame.currentTurn = r[$ "turn"];
 			oGame.firstRoll = true;
-			if(oGame.currentTurn == oGame.myposition and oGame.firstRoll) {instance_create_depth(0, 0, 0, oEffect, {myturn : true})}
+			if(oGame.currentTurn == oGame.myposition and oGame.firstRoll) {audio_play_sound(cuckoo, 1, 0, 1); instance_create_depth(0, 0, 0, oEffect, {myturn : true})}
 			oGame.actions = 0;
 			oGame.resolvingDice = -1;
 			oGame.resolvePhase = false;
@@ -166,7 +167,7 @@ function clientReceivedPacket2(_response)
 				}
 			    if (r[$ "arrows"] != undefined){
 				    oGame.arrows = r[$ "arrows"];
-					if(oGame.arrows == 9) {instance_create_depth(0, 0, 0, oEffect, {arrows : true});}
+					if(r[$ "arrows"] == 9) {instance_create_depth(0, 0, 0, oEffect, {arrows : true});}
 			    }
 			
 				#region skills

@@ -1,5 +1,5 @@
 if(keyboard_check_pressed(vk_home)){room_goto(room_first);}
-if(keyboard_check_pressed(ord("E"))){instance_create_depth(0, 0, depth, oEffect, {arrows : true});}
+//if(keyboard_check_pressed(ord("E"))){instance_create_depth(0, 0, depth, oEffect, {arrows : true});}
 for (var i = 0; i < array_length(global.players); ++i) {
 	if (global.players[i][$ "job"] == Roles.Sheriff and setturn){
 		setturn = false;
