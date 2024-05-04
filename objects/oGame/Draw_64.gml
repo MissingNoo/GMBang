@@ -210,13 +210,15 @@ for (var i = 0; i < array_length(global.players); ++i) {
 	#endregion
 }
 #endregion
+//draw_sprite_ext(sMouseArrow, -1, MX, MY, 3, 3, 0, c_white, 1);
 for (var i = 0; i < array_length(global.players); ++i) {
     if (i != myposition and global.players[i][$ "mx"] != undefined) {
 		if (global.players[i][$ "mouseSprite"] != -1) {
 		    draw_sprite_ext(sDice, global.players[i][$ "mouseSprite"], global.players[i][$ "mx"], global.players[i][$ "my"], 1, 1, 0, c_white, 0.5);
 		}
 		else{
-			draw_circle(global.players[i][$ "mx"], global.players[i][$ "my"], 3, false);
+			//draw_circle(global.players[i][$ "mx"], global.players[i][$ "my"], 3, false);
+			draw_sprite_ext(sMouseArrow, -1, global.players[i][$ "mx"], global.players[i][$ "my"], 2, 2, 0, c_white, 1);
 		}
 	    
 		draw_set_halign(fa_center);

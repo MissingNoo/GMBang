@@ -82,3 +82,4 @@ if (joinedRoom) {
 	    sendMessage({command : Network.StartGame});
 	}
 }
+//draw_sprite_ext(sMouseArrow, -1, MX, MY, 3, 3, 0, c_white, 1);

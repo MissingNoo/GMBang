@@ -74,6 +74,7 @@
     {"id":{"name":"sGuiButtonRim","path":"sprites/sGuiButtonRim/sGuiButtonRim.yy",},},
     {"id":{"name":"sGuiMessage","path":"sprites/sGuiMessage/sGuiMessage.yy",},},
     {"id":{"name":"sGuiMessage8910","path":"sprites/sGuiMessage8910/sGuiMessage8910.yy",},},
+    {"id":{"name":"sMouseArrow","path":"sprites/sMouseArrow/sMouseArrow.yy",},},
     {"id":{"name":"sRevolver","path":"sprites/sRevolver/sRevolver.yy",},},
     {"id":{"name":"sSheriff","path":"sprites/sSheriff/sSheriff.yy",},},
     {"id":{"name":"sTurn","path":"sprites/sTurn/sTurn.yy",},},

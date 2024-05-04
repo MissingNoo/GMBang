@@ -1,10 +1,13 @@
 var i_d = ds_map_find_value(async_load, "id");
-show_message_async($"{i_d}, {uname}, {uip}, {uport}");
+//show_message_async($"{i_d}, {uname}, {uip}, {uport}");
 switch(i_d){
     case uname:
         if (ds_map_find_value(async_load, "status")){
             if (ds_map_find_value(async_load, "result") != ""){
                 global.username = ds_map_find_value(async_load, "result");
+                ini_open("settings.ini");
+                ini_write_string("Game", "Username", global.username);
+                ini_close();
             }
         }
         break;

@@ -1,10 +1,14 @@
 randomize();
 global.startturn = -1;
-//global.serverip = "127.0.0.1";
-global.serverip = "192.168.0.107";
+global.serverip = "127.0.0.1";
+//global.serverip = "192.168.0.107";
 //global.serverip = "140.238.187.191";
 global.port = 8888;
-global.username = $"test {irandom(999)}";
+ini_open("settings.ini");
+global.username = ini_read_string("Game", "Username", $"test {irandom(999)}");
+ini_close();
+//window_set_cursor(cr_none);
+//cursor_sprite = sMouseArrow;
 global.roomname = "";
 global.password = 0;
 if (instance_number(oClient) > 1) { instance_destroy(); }
